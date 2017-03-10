@@ -50,11 +50,13 @@ app.post('/contact', async (req, res) => {
     new Contact({ name, phone, comment, gender }).save(); // saving in db
     if (gender == 'female') {
       const smsId = await sendSMS(FEMALE , message);
+      console.log('message sent');
     } else {
       const smsId = await sendSMS(MALE , message);
+      console.log('message sent');
     }
     console.log(req.body);
-    res.json({ success: true, smsId });
+    res.json({ success: true });
   } catch (err) {
     console.log(err);
     res.json({ success: false, error: err });
