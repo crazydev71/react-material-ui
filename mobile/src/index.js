@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import request from 'superagent';
-
+import Spinner from 'react-md-spinner';
 import Logo from './logo.png'
 
 // Needed for onTouchTap
@@ -17,6 +17,11 @@ if (process.env.NODE_ENV !== 'development') {
   APIURL = `${window.location.origin}/api`;
 }
 
+
+
+const Loader = () => <div style={{ marginTop: '200px', marginLeft: '50%' }}>
+  <Spinner size={50} />
+</div>;
 const Card = ({ children }) => <View style={styles.card}>{children}</View>
 const Title = ({ children }) => <Text style={styles.title}>{children}</Text>
 
@@ -29,6 +34,7 @@ class App extends React.Component {
       phone: '',
       comment: '',
       gender: 'male',
+      loading: false,
     }
   }
   handleChangeGender(event, index, value) {
@@ -38,12 +44,16 @@ class App extends React.Component {
   }
   sendRequest(event) {
     const self = this;
+    this.setState({
+      loading: true,
+    });
     request.post(`${APIURL}/contact`, this.state).then((res) => {
       self.setState({
         name: '',
         phone: '',
         comment: '',
         gender: 'male',
+        loading: false,
       });
       alert("Thanks!, We will contact with you soon!");
     });
@@ -82,7 +92,7 @@ class App extends React.Component {
               weightStyles['bold']
             ]}>We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto</Text>
           </View>
-           <MuiThemeProvider>
+          { !this.state.loading ? <MuiThemeProvider>
              <View style={styles.fullSupport}>
                <TextInput
                  accessibilityLabel='Name'
@@ -133,7 +143,7 @@ class App extends React.Component {
                />
 
              </View>
-          </MuiThemeProvider>
+          </MuiThemeProvider> : <Loader /> }
         </View>
       </ScrollView>
     );
