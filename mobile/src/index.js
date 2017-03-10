@@ -2,7 +2,6 @@ import React from 'react'
 import { AppRegistry, Image, StyleSheet, Text, View, ScrollView, TextInput, Button} from 'react-native'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import request from 'superagent';
@@ -12,6 +11,11 @@ import Logo from './logo.png'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+let APIURL = 'http://localhost:5000';
+if (process.env.NODE_ENV !== 'development') {
+  APIURL = `${window.location.origin}/api`;
+}
 
 const Card = ({ children }) => <View style={styles.card}>{children}</View>
 const Title = ({ children }) => <Text style={styles.title}>{children}</Text>
@@ -34,7 +38,7 @@ class App extends React.Component {
   }
   sendRequest(event) {
     const self = this;
-    request.post('http://localhost:5000/contact', this.state).then((res) => {
+    request.post(`${APIURL}/contact`, this.state).then((res) => {
       self.setState({
         name: '',
         phone: '',
@@ -55,7 +59,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.state, null, 2));
     return (
       <ScrollView contentContainerStyle={styles.card}>
         <View>

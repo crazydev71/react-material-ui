@@ -7,10 +7,10 @@ import logger from 'morgan';
 import { ValidationError } from 'property-validator';
 import twilioLibrary from 'twilio';
 import DB from './db';
-
+const { TWILIO_SID, TWILIO_SECRET, MALE, FEMALE, SMS_FROM } = process.env;
 const Contact = DB.Model.extend({ tableName: 'contact' });
-const accountSid = 'AC5d010cbfe6a1f85818c7b853b546f9c7';
-const authToken = '17babb405152040a47a6ae417e439e27';
+const accountSid = TWILIO_SID;
+const authToken = TWILIO_SECRET;
 
 const app = express();
 app.set('port', 5000);
@@ -31,7 +31,7 @@ function sendSMS(number, message) {
     client.messages.create({
         body: message,
         to:  number,
-        from: '+16475608663'  // From a valid Twilio number
+        from: SMS_FROM  // From a valid Twilio number
     }, function(err, message) {
         if (err) {
           reject(err);
@@ -45,10 +45,15 @@ function sendSMS(number, message) {
 
 app.post('/contact', async (req, res) => {
   const { phone, name, comment, gender } = req.body;
-  const message = `Name: ${name}, Person: ${gender}, Message: ${comment}`;
+  const message = `Name: ${name}, Person: ${gender}, Message: ${comment}, Phone: ${phone}`;
   try {
     new Contact({ ...req.body }).save(); // saving in db
-    const smsId = await sendSMS(phone ? phone: '+16475608663' , message);
+    if (gender == 'female') {
+      const smsId = await sendSMS(FEMALE , message);
+    } else {
+      const smsId = await sendSMS(MALE , message);
+    }
+    console.log(smsId);
     console.log(req.body);
     res.json({ success: true });
   } catch (err) {
