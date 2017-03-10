@@ -54,7 +54,7 @@ app.post('/contact', async (req, res) => {
       const smsId = await sendSMS(MALE , message);
     }
     console.log(req.body);
-    res.json({ success: true });
+    res.json({ success: true, smsId });
   } catch (err) {
     console.log(err);
     res.json({ success: false, error: err });
