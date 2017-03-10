@@ -14,7 +14,7 @@ injectTapEventPlugin();
 
 let APIURL = 'http://localhost:5000';
 if (process.env.NODE_ENV !== 'development') {
-  APIURL = `${window.location.origin}/api`;
+  APIURL = `${window.location.origin}:5000/`;
 }
 
 
