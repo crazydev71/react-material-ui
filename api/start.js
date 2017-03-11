@@ -61,7 +61,23 @@ app.post('/contact', async (req, res) => {
     console.log(err);
     res.json({ success: false, error: err });
   }
+});
 
+
+function getAllContacts() {
+  return new Promise((resolve, reject) => {
+    Contact.fetchAll().then((data, err) => {
+      resolve(data.toJSON());
+      if (err) {
+        reject(err);
+      }
+    });
+  });
+}
+
+app.get('/export', async (req, res) => {
+  const data = await getAllContacts();
+  res.json(data);
 });
 
 app.get('/', (req, res) => {
