@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 
 
-const Loader = () => <div style={{ marginTop: '200px', marginLeft: '50%' }}>
+const Loader = () => <div style={{ marginTop: '200px', width:'auto', marginLeft: 'auto', marginRight: 'auto' }}>
   <Spinner size={50} />
 </div>;
 const Card = ({ children }) => <View style={styles.card}>{children}</View>
@@ -55,7 +55,7 @@ class App extends React.Component {
         gender: 'male',
         loading: false,
       });
-      alert("Thanks!, We will contact with you soon!");
+      alert("A Mendr RMT will contat you shortly.");
     });
   }
 
@@ -77,7 +77,7 @@ class App extends React.Component {
             source={{ uri: Logo }}
             style={styles.image}
           />
-          <Title> Massage that travels </Title>
+          <Title> Massage that Travels </Title>
           <View style={{ flex: 1, justifyContent: 'center'}}>
             <Text style={[
               { textAlign: 'center', marginTop: 30, },
@@ -96,7 +96,7 @@ class App extends React.Component {
              <View style={styles.fullSupport}>
                <TextInput
                  accessibilityLabel='Name'
-                 placeholder={`Name`}
+                 placeholder={`your name`}
                  onChange={this._onBlur.bind(this, 'name')}
                  style={[
                    styles.inputField,
@@ -105,7 +105,7 @@ class App extends React.Component {
 
                <TextInput
                  accessibilityLabel='Phone'
-                 placeholder={`Phone`}
+                 placeholder={`your phone number`}
                  keyboardType="phone-pad"
                  onChange={this._onBlur.bind(this, 'phone')}
                  style={[
@@ -114,19 +114,19 @@ class App extends React.Component {
                /><br/>
 
                <SelectField
-                 style={{ width: '100%' }}
-                 floatingLabelText="Please select"
+                 style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}
+                 floatingLabelText="preferred gender of masseuse:"
                  value={this.state.gender}
                  onChange={this.handleChangeGender}
                >
-                 <MenuItem value="male" primaryText="Male" />
-                 <MenuItem value="female" primaryText="Female" />
-                 <MenuItem value="couple" primaryText="Couple (Male & Female)" />
+                 <MenuItem value="male" primaryText="Massuer (Male)" />
+                 <MenuItem value="female" primaryText="Masseuse (Female)" />
+                 <MenuItem value="couple" primaryText="Other" />
                </SelectField><br/>
 
 
                <TextInput
-                 accessibilityLabel='Comments'
+                 accessibilityLabel='Additional Notes'
                  onChange={this._onBlur.bind(this, 'comment')}
                  maxNumberOfLines={5}
                  multiline
@@ -136,10 +136,10 @@ class App extends React.Component {
                /> <br/>
 
                <Button
-                 accessibilityLabel="Contact Masseuse Now"
+                 accessibilityLabel="Find Local RMT Now"
                  color="#2196F3"
                  onPress={this.sendRequest.bind(this)}
-                 title="Contact Masseuse Now"
+                 title="Find Local RMT Now"
                />
 
              </View>
