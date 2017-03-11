@@ -45,7 +45,7 @@ function sendSMS(number, message) {
 
 app.post('/contact', async (req, res) => {
   const { phone, name, comment, gender } = req.body;
-  const message = `Name: ${name}, Person: ${gender}, Message: ${comment}, Phone: ${phone}`;
+  const message = `From: ${name} @ ${phone}, requested gender: ${gender}, notes: ${comment}`;
   try {
     new Contact({ name, phone, comment, gender }).save(); // saving in db
     if (gender == 'female') {
