@@ -55,7 +55,7 @@ class App extends React.Component {
         gender: 'male',
         loading: false,
       });
-      alert("A Mendr RMT will contat you shortly.");
+      alert("A Mendr RMT will contact you shortly.");
     });
   }
 
