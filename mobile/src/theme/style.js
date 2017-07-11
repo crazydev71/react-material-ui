@@ -31,7 +31,8 @@ export const styles = StyleSheet.create({
 export const colorStyles = StyleSheet.create({
   white: { color: 'white' },
   gray: { color: 'gray' },
-  red: { color: 'red' }
+  red: { color: 'red' },
+  green: { color: 'green' }
 })
 
 export const sizeStyles = StyleSheet.create({

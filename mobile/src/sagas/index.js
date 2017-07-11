@@ -1,4 +1,4 @@
-import {registerAttempt} from './register';
+import {user} from './user';
 export default [
-  registerAttempt,
+  user,
 ];

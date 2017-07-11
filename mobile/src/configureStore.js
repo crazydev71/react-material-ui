@@ -6,11 +6,11 @@ import createSagaMiddleware from 'redux-saga';
 
 import * as reducers from './reducers';
 
-const history = createHistory();
+export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routerReduxMiddleware = routerMiddleware(history);
 
-function configureStore(initialState = fromJS({})) {
+export function configureStore(initialState = fromJS({})) {
   const middlewares = [
     routerReduxMiddleware,
     sagaMiddleware,
@@ -25,7 +25,7 @@ function configureStore(initialState = fromJS({})) {
 //   }
 
   const store = createStore(
-    combineReducers({...reducers, router: routerReducer}),
+    combineReducers({...reducers, routing: routerReducer}),
     initialState,
     compose(...enhancers)
   );
@@ -36,4 +36,4 @@ function configureStore(initialState = fromJS({})) {
   return store;
 }
 
-module.exports = configureStore;
+// module.exports = configureStore;
