@@ -17,7 +17,7 @@ class Verification extends React.Component {
     super(props);
     // this.handleChangeGender = this.handleChangeGender.bind(this);
     this.state = {
-      phone: '+79084509407',
+      phone: '',
 			smsCode: '',
       waitingSMS: false,
       loading: false,
@@ -103,12 +103,12 @@ class Verification extends React.Component {
 									<Button 
 										accessibilityLabel="Press Button" 
 										color="#2196F3" 
-										title="Send Code" 
+										title="Verify Account" 
 										onPress={() => this.verifySMSCode()}
 									/>
 								</View>)
 							}
-							{this.state.isLoading && <View ><Spinner size={30}/></View>}
+							{this.state.loading && <View style={[{justifyContent: 'center', width: 'auto', marginLeft: 'auto', marginRight: 'auto', marginTop: 50}]}><Spinner size={30}/></View>}
 						</View>
           </MuiThemeProvider>
         </View>

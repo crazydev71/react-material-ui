@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as UserController from '../controllers/user.controller';
 import * as LogController from '../controllers/log.controller';
+import * as ContactController from '../controllers/contact.controller';
 
 const router = express.Router();
 
@@ -26,5 +27,11 @@ router.route('/logs')
 
 router.route('/users')
   .get(UserController.getUsers);
+
+router.route('/contact')
+  .post(ContactController.sendContact);
+
+router.route('/contacts')
+  .get(ContactController.getAllContacts);
 
 export default router;

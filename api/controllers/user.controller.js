@@ -65,15 +65,18 @@ export const register = (req, res) => {
 export const requestSMSCode = async (req, res) => {
   const { phone } = req.body;
   const code = utils.random();
-  
-  const smsId = await utils.sendSMS(phone, code)
-  
-  if (smsId) {
+  try {
+    // send sms
+    const message = `${code} is your mend-r code to verify`;
+    const smsId = await utils.sendSMS(phone, message);
+    //save in db
     req.user.save({sms_code: code, phone: phone});
     
     return res.json({msg: "We've sent you a SMS code. Please Input the code to verify"});
+    
+  } catch (err) {
+    return res.status(405).json({msg: "Something went wrong! Please check your phone number"});  
   }
-  return res.status(405).json({msg: "Something went wrong! Please check your phone number"});
 }
 
 export const verifySMSCode = (req, res) => {

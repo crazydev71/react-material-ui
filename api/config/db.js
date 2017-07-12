@@ -19,6 +19,7 @@ const knex = require('knex')(db);
 const DB = require('bookshelf')(knex);
 DB.plugin(require('bookshelf-schema'));
 
+// create tables
 Promise.all([
   knex.schema.hasTable('users').then(exists => {
     if (!exists) {
@@ -53,6 +54,21 @@ Promise.all([
     }
   }),
   
+  knex.schema.hasTable('contacts').then(exists => {
+    if (!exists) {
+      knex.schema.createTable('contacts', contact => {
+        contact.increments('id').primary();
+        contact.integer('user_id');
+        contact.string('name');
+        contact.string('phone')
+        contact.string('comment');
+        contact.string('gender');
+        contact.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+      }).then(table => {
+        console.log('Created Table', table);
+      });
+    }
+  }),
   
 ]);
 
