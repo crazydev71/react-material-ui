@@ -67,7 +67,7 @@ export const requestSMSCode = async (req, res) => {
   const code = utils.random();
   try {
     // send sms
-    const message = `${code} is your mend-r code to verify`;
+    const message = `${code} is your mendr code to verify`;
     const smsId = await utils.sendSMS(phone, message);
     //save in db
     req.user.save({sms_code: code, phone: phone});
