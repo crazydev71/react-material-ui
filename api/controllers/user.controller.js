@@ -6,7 +6,7 @@ import utils from '../utils'
 
 export const login = (req, res) => {
   const {email, password} = req.body;
-  
+
   User.where('email', email).fetch().then((model) => {
     if (model) {
       const user = model.toJSON();
@@ -103,5 +103,15 @@ export const getUsers = (req, res) => {
 }
 
 export const auth = (req, res) => {
-  res.json({msg: "Authentication success"});
+  const user = req.user.toJSON();
+  if (user.verified)
+    return res.status(200).json({
+      user: user,
+      msg: "Login Succeeded"
+    });
+  else
+    return res.status(203).json({
+      user: user, 
+      msg: "Please verify your phone"
+    });
 }

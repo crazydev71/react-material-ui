@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { View } from 'react-native';
@@ -8,6 +9,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+
 
 import SideBar from '../../components/sidebar';
 
@@ -41,13 +43,13 @@ class Dashboard extends React.Component {
       <View className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton color="contrast" aria-label="Menu" onClick={()=>this.handleOpenSideBar()}>
-              <MenuIcon />
-            </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
               Dashboard
             </Typography>
-            <Button color="contrast">LogOut</Button>
+            <IconButton color="contrast" aria-label="Menu" onClick={()=>this.handleOpenSideBar()}>
+              <MenuIcon />
+            </IconButton>
+            {/* <Button color="contrast">LogOut</Button> */}
           </Toolbar>
         </AppBar>
         <SideBar open={this.state.sideBarOpen} handleClose={this.handleCloseSideBar} handleOpen={this.handleOpenSideBar}/>
@@ -60,4 +62,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styleSheet)(Dashboard);
+export default connect() (withStyles(styleSheet)(Dashboard));

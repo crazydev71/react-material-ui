@@ -5,6 +5,7 @@ import User from '../models/user';
 const authenticate = jwt({
   secret: process.env.JWT_SECRET,
   getToken: function fromHeaderOrQuerystring (req) {
+    console.log("--------------------------");
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         return req.headers.authorization.split(' ')[1];
     }

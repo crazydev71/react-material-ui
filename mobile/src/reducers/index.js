@@ -1,4 +1,4 @@
-// import login from './login';
-// export default {
-//   login
-// };
+import user from './user';
+export default [
+    user,
+]

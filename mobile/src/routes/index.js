@@ -6,17 +6,19 @@ import Login from '../containers/login';
 import Register from '../containers/register';
 import Verification from '../containers/verification';
 import Dashboard from '../containers/dashboard';
-// import Dashboard from '../containers/dashboard';
+import Home from '../containers/home';
 import History from '../containers/history';
+import Request from '../containers/request';
 
 const Routes = (props) => (
   <View>
-    <Route exact path="/" component={Login}></Route>
+    <Route exact path="/" component={Home}></Route>
     <Route exact path="/login" component={Login}></Route>
     <Route exact path="/register" component={Register}></Route>
     <Route exact path="/register/verify" component={Verification}></Route>
-    <Route exact path="/dashboard" component={Dashboard}></Route>
+    <Route path="/dashboard" component={Dashboard}></Route>
     <Route path="/dashboard/history" component={History}></Route>
+    <Route path="/dashboard/request" component={Request}></Route>
   </View>
 );
 
