@@ -4,6 +4,6 @@ import { styles } from '../style';
 
 console.log(styles);
 
-const Title = ({ children }) => <Text style={styles.title}>{children}</Text>
+const Title = ({ children }) => (<Text style={styles.title}>{children}</Text>);
 
 export default Title;

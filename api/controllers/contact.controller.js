@@ -13,17 +13,13 @@ export const sendContact = async (req, res) => {
   try {
     // save in db
     new Contact({ user_id: user.id, name: user.name, phone: user.phone, comment: comment, gender: gender }).save(); 
-    console.log(message);
-    console.log({ MALE, FEMALE });
     //send sms
     if (gender == 'female') {
       const smsId = await utils.sendSMS(FEMALE , message);
-      console.log('message sent');
     } else {
-      console.log(MALE);
       const smsId = await utils.sendSMS(MALE , message);
-      console.log('message sent');
     }
+    addLog(user.id, "Send a request", "gender", gender);
     return res.json({ success: true });
     
   } catch (err) {

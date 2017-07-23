@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware, routerReducer} from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import createSagaMiddleware from 'redux-saga';
+import { toastReducer as toast } from 'react-native-redux-toast';
 
 import * as reducers from './reducers';
 
@@ -25,7 +26,7 @@ export function configureStore(initialState = fromJS({})) {
 //   }
 
   const store = createStore(
-    combineReducers({...reducers, routing: routerReducer}),
+    combineReducers({...reducers, toast, routing: routerReducer}),
     initialState,
     compose(...enhancers)
   );

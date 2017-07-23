@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router';	
-import { AsyncStorage} from 'react-native';
+import { AsyncStorage, View} from 'react-native';
 import { ConnectedRouter, push } from 'react-router-redux';
-
+import { MuiThemeProvider} from 'material-ui/styles/';
+import { Toast } from 'react-native-redux-toast';
 
 // configuration
 import sagas from './sagas';
 import {configureStore, history} from './configureStore';
 
 // import Home from './containers/home';
-import Register from './containers/register';
-import Verification from './containers/verification';
-import Dashboard from './containers/dashboard';
-import Login from './containers/login';
+import Routes from './routes';
 
 const store = configureStore();
-
 sagas.forEach((saga) => store.runSaga(saga));
 
 class App extends Component {
 	
 	componentDidMount = async () => {
+// 	injectTapEventPlugin();
 		const token = await AsyncStorage.getItem('token');
 		if (!token)
 			store.dispatch(push('/login'));
@@ -30,15 +28,14 @@ class App extends Component {
 	render () {
 		return (
 			<Provider store={store}>
-				<ConnectedRouter history={history}>
-					<div>
-						<Route exact path="/" component={Login}></Route>
-						<Route exact path="/login" component={Login}></Route>
-						<Route exact path="/register" component={Register}></Route>
-						<Route exact path="/register/verify" component={Verification}></Route>
-						<Route exact path="/dashboard" component={Dashboard}></Route>
-					</div>
-				</ConnectedRouter>
+				<View>
+					<MuiThemeProvider>
+						<ConnectedRouter history={history} >
+							<Routes/>
+						</ConnectedRouter>
+					</MuiThemeProvider>
+					<Toast messageStyle={{ color: 'white' }} />
+				</View>
 			</Provider>
 		)
 	}

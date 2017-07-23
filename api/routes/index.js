@@ -24,7 +24,6 @@ router.route('/verifysmscode')
 router.route('/logs')
   .get(LogController.getLogs);
 
-
 router.route('/users')
   .get(UserController.getUsers);
 

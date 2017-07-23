@@ -8,10 +8,7 @@ import { ValidationError } from 'property-validator';
 
 import DB from './config/db';
 import { authenticate, authError, setUser } from './middlewares/auth';
-import { sendSMS } from './utils';
 import router from './routes';
-
-import Contact from './models/contact';
 
 const app = express();
 app.set('port', 5000);

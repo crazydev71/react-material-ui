@@ -1,8 +1,7 @@
 // import Types from '../actions/types';
 
 // const initialState = {
-//   loading: false,
-//   msg: null
+//     open: false
 // };
 
 // export default function(state = initialState, action) {

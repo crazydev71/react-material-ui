@@ -1,8 +1,9 @@
 import React from 'react'
 import {Image, Text, View, ScrollView, TextInput, Button, AsyncStorage} from 'react-native'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import {api, json} from '../../api';
 
@@ -37,15 +38,23 @@ class Login extends React.Component {
       });
       
       if (!res.ok) {
+        
+        this.props.dispatch(ToastActionsCreators.displayError("Invalid username or password!", 2000));
         return;
+        
       } else if (res.status === 200) {
+        
+        this.props.dispatch(ToastActionsCreators.displayInfo("Login succeeded!", 2000));
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch(push('/dashboard'));
+        
       } else if (res.status === 203) {
+        
+        this.props.dispatch(ToastActionsCreators.displayWarning("Please verify you!", 2000));
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch(push('/register/verify'));
       }
-    })
+    });
   }
 
   render() {
@@ -73,7 +82,7 @@ class Login extends React.Component {
             ]}>We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto</Text>
           </View>
       
-          { !this.state.loading ? <MuiThemeProvider>
+          { !this.state.loading ? 
              <View style={styles.fullSupport}>
                <TextInput
                  accessibilityLabel='Email'
@@ -110,8 +119,7 @@ class Login extends React.Component {
                             ]}>
                  Don't you have an account? Please <Text style={[colorStyles[`green`],]} onPress={() => this.props.dispatch(push('/register'))}>register here</Text>
                </Text>
-             </View>
-          </MuiThemeProvider> : <Loader /> }
+             </View> : <Loader /> }
         </View>
       </ScrollView>
     );

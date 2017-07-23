@@ -2,7 +2,7 @@ import React from 'react'
 import {Image, Text, View, ScrollView, TextInput, Button} from 'react-native'
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import {api, json} from '../../api';
 
@@ -70,12 +70,12 @@ class Verification extends React.Component {
 			
 					<View style={{margin: 30}}><br/></View>
 			
-          <MuiThemeProvider>
+          <View>
 						<View style={styles.fullSupport}>
 
 							<View>
 								<Text style={ [{color: '#00a0ff'}, sizeStyles['normal'], weightStyles['bold']] }>Verify Phone</Text>
-								<TextInput accessibilityLabel='Phone' placeholder={`Phone Number ( e.g +16475009320 )`} keyboardType="phone-pad" style={[styles.inputField]} 
+								<TextInput accessibilityLabel='Phone' placeholder={`Phone Number ( e.g +14169671111 )`} keyboardType="phone-pad" style={[styles.inputField]} 
 									value={this.state.phone} 
 									onChange={(event) => this.setState( { phone: event.target.value } )}
 								/>
@@ -110,7 +110,7 @@ class Verification extends React.Component {
 							}
 							{this.state.loading && <View style={[{justifyContent: 'center', width: 'auto', marginLeft: 'auto', marginRight: 'auto', marginTop: 50}]}><Spinner size={30}/></View>}
 						</View>
-          </MuiThemeProvider>
+          </View>
         </View>
       </ScrollView>
     );

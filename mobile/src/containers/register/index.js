@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, Text, View, ScrollView, TextInput, Button, AsyncStorage} from 'react-native'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 
@@ -53,7 +53,7 @@ class Register extends React.Component {
             style={styles.image}
           />
       
-          { !this.state.loading ? <MuiThemeProvider>
+          { !this.state.loading ? <View>
              <View style={styles.fullSupport}>
               <TextInput
                  accessibilityLabel='Fullname'
@@ -100,7 +100,7 @@ class Register extends React.Component {
                  Already have an account? Please <Text style={[colorStyles[`green`],]} onPress={() => this.props.dispatch(push('/login'))}>login here</Text>
                </Text>
              </View>
-          </MuiThemeProvider> : <Loader /> }
+          </View> : <Loader /> }
         </View>
       </ScrollView>
     );
