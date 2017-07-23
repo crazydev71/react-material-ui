@@ -5,7 +5,7 @@ import createHistory from 'history/createBrowserHistory';
 import createSagaMiddleware from 'redux-saga';
 import { toastReducer as toast } from 'react-native-redux-toast';
 
-import * as reducers from './reducers';
+import reducers from './reducers';
 
 export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();

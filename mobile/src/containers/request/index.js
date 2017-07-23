@@ -15,7 +15,7 @@ import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style
 
 import { api, json } from '../../api';
 
-class Contact extends React.Component {
+class Request extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -112,4 +112,4 @@ class Contact extends React.Component {
 	}
 }
 
-export default connect() (Contact);
+export default connect() (Request);

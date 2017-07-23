@@ -73,4 +73,8 @@ class History extends React.Component {
 	}
 }
 
+const mapStateToProps = (state) => ({
+	user: state.user,
+})
+
 export default connect() (History);
