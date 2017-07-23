@@ -11,7 +11,7 @@ import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style
 
 import { api, json } from '../../api';
 
-class History extends React.Component {
+class Transaction extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -21,7 +21,6 @@ class History extends React.Component {
 			loading: false
 		}
 		this.getLogs = this.getLogs.bind(this);
-		this.handleChangeGender = this.handleChangeGender.bind(this);
 	}
 	
 	getLogs () {
@@ -31,16 +30,8 @@ class History extends React.Component {
 		});
 	}
 	
-	handleChangeGender(event, value) {
-		this.setState({
-		gender: value
-		});
-	}
-	
-	
-	
 	componentDidMount() {
-		this.getLogs();
+		// this.getLogs();
 	}
 
 	componentWillReceiveProps (newProps) {
@@ -50,8 +41,9 @@ class History extends React.Component {
 		return (
 			<ScrollView>
 				<View style={[{padding: 20}]}> 
-					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities [{this.props.user.role}]</Text>
-					<HistoryTable dataSet={this.state.logs}/>
+					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Transaction History [{this.props.user.role}]</Text>
+                    <Text>Transaction Table Here</Text>
+					{/* <HistoryTable dataSet={this.state.logs}/> */}
 				</View>
 			</ScrollView>
 		);
@@ -67,4 +59,4 @@ const mapStateToProps = (state, ownProps) => {
 const dispatchToProps = (dispatch) => ({
 	dispatch,
 })
-export default connect(mapStateToProps, dispatchToProps) (History);
+export default connect(mapStateToProps, dispatchToProps) (Transaction);

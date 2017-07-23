@@ -28,7 +28,6 @@ class App extends Component {
 	componentDidMount = async () => {
 		
 		api.post('/auth').then((res) => {
-			console.log(res);
 			if (!res.ok) {
 				store.dispatch(push('/login'));
 			} else if (res.status === 200) {

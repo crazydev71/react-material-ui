@@ -9,6 +9,7 @@ import Dashboard from '../containers/dashboard';
 import Home from '../containers/home';
 import History from '../containers/history';
 import Request from '../containers/request';
+import Transaction from '../containers/transaction';
 
 const Routes = (props) => (
   <View>
@@ -19,6 +20,7 @@ const Routes = (props) => (
     <Route path="/dashboard" component={Dashboard}></Route>
     <Route path="/dashboard/history" component={History}></Route>
     <Route path="/dashboard/request" component={Request}></Route>
+    <Route path="/dashboard/transaction" component={Transaction}></Route>
   </View>
 );
 

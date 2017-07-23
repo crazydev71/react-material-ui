@@ -18,7 +18,6 @@ export const api = apisauce.create({
 
 api.addAsyncRequestTransform(request => async() => {
   const token = await AsyncStorage.getItem('token');
-  console.log(token);
   if (token)
     request.headers['authorization'] = 'Bearer ' + token;
   else
