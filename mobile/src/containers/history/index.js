@@ -39,8 +39,6 @@ class History extends React.Component {
 		});
 	}
 	
-	
-	
 	componentDidMount() {
 		this.getLogs();
 	}

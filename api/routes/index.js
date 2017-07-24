@@ -2,7 +2,7 @@ import express from 'express';
 
 import * as UserController from '../controllers/user.controller';
 import * as LogController from '../controllers/log.controller';
-import * as ContactController from '../controllers/contact.controller';
+import * as RequestController from '../controllers/request.controller';
 
 const router = express.Router();
 
@@ -27,10 +27,10 @@ router.route('/logs')
 router.route('/users')
   .get(UserController.getUsers);
 
-router.route('/contact')
-  .post(ContactController.sendContact);
+router.route('/request')
+  .post(RequestController.sendRequest);
 
-router.route('/contacts')
-  .get(ContactController.getAllContacts);
+router.route('/requests')
+  .get(RequestController.getAllRequests);
 
 export default router;

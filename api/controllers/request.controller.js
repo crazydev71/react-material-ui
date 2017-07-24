@@ -1,18 +1,18 @@
-import Contact from '../models/contact';
+import Request from '../models/request';
 import {addLog} from './log.controller';
 import hash from 'password-hash';
 import utils from '../utils'
 
 const { MALE, FEMALE } = process.env;
 
-export const sendContact = async (req, res) => {
+export const sendRequest = async (req, res) => {
   const user = req.user.toJSON();
   const { comment, gender } = req.body;
   console.log ({comment, gender});
   const message = `From: ${user.name} @ ${user.phone}, requested gender: ${gender}, notes: ${comment}`;
   try {
     // save in db
-    new Contact({ user_id: user.id, name: user.name, phone: user.phone, comment: comment, gender: gender }).save(); 
+    new Request({ user_id: user.id, name: user.name, phone: user.phone, comment: comment, gender: gender }).save(); 
     //send sms
     if (gender == 'female') {
       const smsId = await utils.sendSMS(FEMALE , message);
@@ -28,9 +28,9 @@ export const sendContact = async (req, res) => {
 };
 
 
-const getContacts = () => {
+const getRequests = () => {
   return new Promise((resolve, reject) => {
-    Contact.fetchAll().then((data, err) => {
+    Request.fetchAll().then((data, err) => {
       resolve(data.toJSON());
       if (err) {
         reject(err);
@@ -39,7 +39,7 @@ const getContacts = () => {
   });
 }
 
-export const getAllContacts = async (req, res) => {
-  const data = await getContacts();
+export const getAllRequests = async (req, res) => {
+  const data = await getRequests();
   res.json(data);
 };

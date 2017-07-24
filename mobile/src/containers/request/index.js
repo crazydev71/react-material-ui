@@ -50,7 +50,7 @@ class Request extends React.Component {
 			comment: this.state.comment,
 		};
 		
-		api.post('/contact', json(postData)).then((res) => {
+		api.post('/request', json(postData)).then((res) => {
 			this.setState({ loading: false });
 			if (res.ok)
 				this.props.dispatch(ToastActionsCreators.displayInfo("Mendr will contact you soon. Thanks", 3000));
