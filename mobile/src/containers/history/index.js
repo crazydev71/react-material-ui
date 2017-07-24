@@ -10,6 +10,8 @@ import { HistoryTable } from '../../components';
 import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
 
 import { api, json } from '../../api';
+// import { withStyles, createStyleSheet } from 'material-ui/styles';
+// import Button from 'material-ui/Button';
 
 class History extends React.Component {
 	constructor (props) {
@@ -52,6 +54,9 @@ class History extends React.Component {
 				<View style={[{padding: 20}]}> 
 					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities [{this.props.user.role}]</Text>
 					<HistoryTable dataSet={this.state.logs}/>
+					{/* <Button raised color="primary">
+						Primary
+					</Button> */}
 				</View>
 			</ScrollView>
 		);

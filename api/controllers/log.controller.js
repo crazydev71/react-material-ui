@@ -14,7 +14,7 @@ export const addLog = (user_id, action, action_key, action_data) => {
 
 export const getLogs = (req, res) => {
   const user = req.user.toJSON();
-  Log.where('user_id', user.id).fetchAll().then((model) => {
+  Log.where('user_id', user.id).orderBy('created_at', 'DESC').fetchAll().then((model) => {
     return res.json(model.toJSON());
   })
 }
