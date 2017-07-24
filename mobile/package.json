@@ -6,7 +6,7 @@
     "apisauce": "^0.14.0",
     "history": "^4.6.3",
     "immutable": "^3.8.1",
-    "material-ui": "^1.0.0-alpha.21",
+    "material-ui": "^1.0.0-beta.2",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
     "react-alert": "^2.1.3",
