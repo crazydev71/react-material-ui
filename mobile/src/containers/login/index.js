@@ -27,7 +27,7 @@ class Login extends React.Component {
   }
   
   
-  sendRequest(event) {
+  sendRequest() {
     this.setState({
       loading: true,
     });
@@ -96,10 +96,12 @@ class Login extends React.Component {
                />
 
                <TextInput
+                 secureTextEntry={true}
                  accessibilityLabel='Password'
                  placeholder={`Your account password`}
                  value={this.state.password}
-                 onChange={(event) => {this.setState({password: event.target.value})}}      
+                 onChange={(event) => {console.log(event); this.setState({password: event.target.value})}}      
+                 onSubmitEditing={() => this.sendRequest()}
                  style={[
                    styles.inputField,
                  ]}
