@@ -53,7 +53,7 @@ class Verification extends React.Component {
 			if (!res.ok)
 				return;
 			
-			this.props.dispatch(push('/dashboard'));
+			this.props.dispatch(push('/dashboard/request'));
 		});
 	}
 

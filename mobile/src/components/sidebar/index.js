@@ -68,7 +68,7 @@ class SideBar extends Component
         <Divider />
       
         <List className={classes.list} disablePadding>
-          <ListItem button>
+          <ListItem button onClick={() => {this.props.dispatch({type: "LOG_OUT"}); this.props.dispatch(push('/login'));}}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -83,7 +83,7 @@ class SideBar extends Component
       <Drawer
         open={this.props.open}
         onRequestClose={this.props.handleClose}
-        >
+        onClick={this.props.handleClose}>
           {sideList}
         </Drawer>
       </View>

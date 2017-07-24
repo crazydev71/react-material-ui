@@ -61,7 +61,6 @@ class Request extends React.Component {
 	
 	componentDidMount() {
 		this.getLogs();
-		console.log(this.props);
 	}
 	render () {
 		return (
