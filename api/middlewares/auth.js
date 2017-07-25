@@ -22,7 +22,6 @@ const authError = (err, req, res, next) => {
 };
 
 const setUser = (req, res, next) => {
-  console.log(req.user);
   if (!req.user)
     return next();
   

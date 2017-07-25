@@ -27,7 +27,7 @@ class Login extends React.Component {
   }
   
   
-  sendRequest(event) {
+  sendRequest() {
     this.setState({
       loading: true,
     });
@@ -43,16 +43,19 @@ class Login extends React.Component {
         return;
         
       } else if (res.status === 200) {
-        
-        this.props.dispatch(ToastActionsCreators.displayInfo("Login succeeded!", 2000));
+
         AsyncStorage.setItem("token", res.data.user.token);
+        this.props.dispatch({type:"SET_USER", payload: res.data.user});
+        this.props.dispatch(ToastActionsCreators.displayInfo("Login succeeded!", 2000));
         this.props.dispatch(push('/dashboard/request'));
         
       } else if (res.status === 203) {
-        
-        this.props.dispatch(ToastActionsCreators.displayWarning("Please verify you!", 2000));
+
         AsyncStorage.setItem("token", res.data.user.token);
+        this.props.dispatch({type:"SET_USER", payload: res.data.user});
+        this.props.dispatch(ToastActionsCreators.displayWarning("Please verify you!", 2000));
         this.props.dispatch(push('/register/verify'));
+
       }
     });
   }
@@ -96,10 +99,12 @@ class Login extends React.Component {
                />
 
                <TextInput
+                 secureTextEntry={true}
                  accessibilityLabel='Password'
                  placeholder={`Your account password`}
                  value={this.state.password}
                  onChange={(event) => {this.setState({password: event.target.value})}}      
+                 onSubmitEditing={() => this.sendRequest()}
                  style={[
                    styles.inputField,
                  ]}
@@ -126,11 +131,7 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-}
+const mapStateToProps = state => state;
+const dispatchToProps = dispatch => ({dispatch});
 
-const dispatchToProps = (dispatch) => ({
-  dispatch
-});
 export default connect(mapStateToProps, dispatchToProps)(Login);

@@ -13,7 +13,7 @@ export const login = (req, res) => {
       
       if (hash.verify(password, user.password)) {
         
-        addLog(user.id, "login", "email", user.email);
+        addLog(user.id, user.name, "login", "email", user.email);
         
         if (user.verified)
           return res.status(200).json({
@@ -53,7 +53,7 @@ export const register = (req, res) => {
       }).save().then((newUser) => {
         const jsonUser = newUser.toJSON();
         
-        addLog(jsonUser.id, "register", "email", jsonUser.email);
+        addLog(jsonUser.id, jsonUser.name, "register", "email", jsonUser.email);
         
         delete jsonUser.password;
         return res.json({user: jsonUser, msg: "Register Succeeded! Please verify you with your phone."})
@@ -86,7 +86,7 @@ export const verifySMSCode = (req, res) => {
   if (smsCode == user.sms_code) {
     req.user.save({verified: true});
     
-    addLog(user.id, "verify", "sms_code", smsCode);
+    addLog(user.id, user.name, "verify", "sms_code", smsCode);
     
     return res.json({msg: "You are verified"});
   }

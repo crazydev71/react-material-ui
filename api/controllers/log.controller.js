@@ -1,8 +1,9 @@
 import Log from '../models/log';
 
-export const addLog = (user_id, action, action_key, action_data) => {
+export const addLog = (user_id, user_name, action, action_key, action_data) => {
   new Log({
     user_id: user_id, 
+    username: user_name,
     action: action, 
     action_key: action_key, 
     action_data: action_data
@@ -14,7 +15,7 @@ export const addLog = (user_id, action, action_key, action_data) => {
 
 export const getLogs = (req, res) => {
   const user = req.user.toJSON();
-  Log.where('user_id', user.id).fetchAll().then((model) => {
+  Log.where('user_id', user.id).orderBy('created_at', 'DESC').fetchAll().then((model) => {
     return res.json(model.toJSON());
   })
 }

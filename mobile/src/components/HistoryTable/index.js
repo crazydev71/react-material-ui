@@ -9,7 +9,7 @@ const styleSheet = createStyleSheet('BasicTable', theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-    // height: '200px'
+    maxHeight: '400px'
   },
 }));
 
