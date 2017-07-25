@@ -1,8 +1,9 @@
 import Log from '../models/log';
 
-export const addLog = (user_id, action, action_key, action_data) => {
+export const addLog = (user_id, user_name, action, action_key, action_data) => {
   new Log({
     user_id: user_id, 
+    username: user_name,
     action: action, 
     action_key: action_key, 
     action_data: action_data

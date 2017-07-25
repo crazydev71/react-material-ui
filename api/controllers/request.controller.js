@@ -8,18 +8,27 @@ const { MALE, FEMALE } = process.env;
 export const sendRequest = async (req, res) => {
   const user = req.user.toJSON();
   const { comment, gender } = req.body;
-  console.log ({comment, gender});
   const message = `From: ${user.name} @ ${user.phone}, requested gender: ${gender}, notes: ${comment}`;
+
   try {
     // save in db
-    new Request({ user_id: user.id, name: user.name, phone: user.phone, comment: comment, gender: gender }).save(); 
+    new Request({ 
+      user_id: user.id, 
+      name: user.name, 
+      phone: user.phone, 
+      comment: comment, 
+      gender: gender,
+      status: 'open',
+    }).save(); 
+    
     //send sms
     if (gender == 'female') {
       const smsId = await utils.sendSMS(FEMALE , message);
     } else {
       const smsId = await utils.sendSMS(MALE , message);
     }
-    addLog(user.id, "Send a request", "gender", gender);
+    
+    addLog(user.id, user.name, "request", "gender", gender);
     return res.json({ success: true });
     
   } catch (err) {

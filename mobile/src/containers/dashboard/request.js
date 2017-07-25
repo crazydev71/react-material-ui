@@ -111,4 +111,7 @@ class Request extends React.Component {
 	}
 }
 
-export default connect() (Request);
+const mapStateToProps = state => state;
+const dispatchToProps = dispatch => ({dispatch});
+
+export default connect(mapStateToProps, dispatchToProps) (Request);

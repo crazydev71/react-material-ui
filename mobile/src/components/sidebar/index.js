@@ -12,6 +12,9 @@ import HistoryIcon from 'material-ui-icons/History';
 import ContactMailIcon from 'material-ui-icons/ContactMail';
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import AttachMoneyIcon from 'material-ui-icons/AttachMoney';
+import GroupIcon from 'material-ui-icons/Group';
+import PermPhoneMsgIcon from 'material-ui-icons/PermPhoneMsg';
+import PersonIcon from 'material-ui-icons/Person';
 
 
 const styleSheet = createStyleSheet('Sidebar', {
@@ -45,24 +48,57 @@ class SideBar extends Component
     const sideList = (
       <View>
         <List className={classes.list} disablePadding>
-          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/request'))}>
+          { 
+            this.props.user.role=='admin' && 
+            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/users'))}>
+              <ListItemIcon>
+                <GroupIcon />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItem>
+          }
+          { 
+            (this.props.user.role=='admin' || this.props.user.role=='employee') && 
+            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/client-requests'))}>
+              <ListItemIcon>
+                <PermPhoneMsgIcon />
+              </ListItemIcon>
+              <ListItemText primary="Client Requests" />
+            </ListItem>
+            
+          }
+          
+          {
+            this.props.user.role=='client' && 
+            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/request'))}>
+              <ListItemIcon>
+                <ContactMailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Request" />
+            </ListItem>
+          }
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/transactions'))}>
             <ListItemIcon>
-              <ContactMailIcon />
+              <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="Request" />
+            <ListItemText primary="Transactions" />
           </ListItem>
+          { 
+            (this.props.user.role=='admin' || this.props.user.role=='employee') && 
+            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/profile'))}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Manage Profile" />
+            </ListItem>
+          }
           <ListItem button onClick={() => this.props.dispatch(push('/dashboard/history'))}>
             <ListItemIcon>
               <HistoryIcon />
             </ListItemIcon>
             <ListItemText primary="History" />
           </ListItem>
-          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/transaction'))}>
-            <ListItemIcon>
-              <AttachMoneyIcon />
-            </ListItemIcon>
-            <ListItemText primary="Transactions" />
-          </ListItem>
+          
         </List>
       
         <Divider />
@@ -95,12 +131,7 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStatetoProps = (state, ownProps) => ({
-  user: state.user
-})
+const mapStateToProps = state => state;
+const dispatchToProps = dispatch => ({dispatch});
 
-const dispatchToProps = (dispatch) => ({
-  dispatch
-})
-
-export default connect(mapStatetoProps, dispatchToProps)(withStyles(styleSheet)(SideBar));
+export default connect(mapStateToProps, dispatchToProps)(withStyles(styleSheet)(SideBar));

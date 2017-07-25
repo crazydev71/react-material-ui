@@ -11,7 +11,7 @@ import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style
 
 import { api, json } from '../../api';
 
-class Transaction extends React.Component {
+class Transactions extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -43,20 +43,13 @@ class Transaction extends React.Component {
 				<View style={[{padding: 20}]}> 
 					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Transaction History [{this.props.user.role}]</Text>
                     <Text>Transaction Table Here</Text>
-					{/* <HistoryTable dataSet={this.state.logs}/> */}
 				</View>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		user: state.user
-	}
-}
+const mapStateToProps = state => state;
+const dispatchToProps = dispatch => ({dispatch});
 
-const dispatchToProps = (dispatch) => ({
-	dispatch,
-})
-export default connect(mapStateToProps, dispatchToProps) (Transaction);
+export default connect(mapStateToProps, dispatchToProps) (Transactions);
