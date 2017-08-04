@@ -28,11 +28,11 @@ export const sendRequest = async (req, res) => {
     
     //send sms
     
-    // if (gender == 'female') {
-    //   const smsId = await utils.sendSMS(FEMALE , message);
-    // } else {
-    //   const smsId = await utils.sendSMS(MALE , message);
-    // }
+    if (gender == 'female') {
+      const smsId = await utils.sendSMS(FEMALE , message);
+    } else {
+      const smsId = await utils.sendSMS(MALE , message);
+    }
     
     console.log(newRequest.toJSON());
 
