@@ -7,28 +7,35 @@ const { MALE, FEMALE } = process.env;
 
 export const sendRequest = async (req, res) => {
   const user = req.user.toJSON();
-  const { comment, gender } = req.body;
+  let { comment, gender, request_time } = req.body;
+  // request_time = Date.parse(request_time)
+  // console.log(request_time);
   const message = `From: ${user.name} @ ${user.phone}, requested gender: ${gender}, notes: ${comment}`;
 
   try {
     // save in db
-    new Request({ 
+    const newRequest =  new Request({ 
       user_id: user.id, 
       name: user.name, 
       phone: user.phone, 
       comment: comment, 
       gender: gender,
+      request_time: request_time,
       status: 'open',
-    }).save(); 
+    });
+
+    await newRequest.save(); 
     
     //send sms
     
-    if (gender == 'female') {
-      const smsId = await utils.sendSMS(FEMALE , message);
-    } else {
-      const smsId = await utils.sendSMS(MALE , message);
-    }
+    // if (gender == 'female') {
+    //   const smsId = await utils.sendSMS(FEMALE , message);
+    // } else {
+    //   const smsId = await utils.sendSMS(MALE , message);
+    // }
     
+    console.log(newRequest.toJSON());
+
     addLog(user.id, user.name, "request", "gender", gender);
     return res.json({ success: true });
     
