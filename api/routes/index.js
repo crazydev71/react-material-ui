@@ -28,9 +28,13 @@ router.route('/users')
   .get(UserController.getUsers);
 
 router.route('/request')
-  .post(RequestController.sendRequest);
+  .post(RequestController.sendRequest)
+  .put(RequestController.updateRequest);
 
 router.route('/requests')
   .get(RequestController.getAllRequests);
+
+router.route('/profile')
+	.post(UserController.updateProfile);
 
 export default router;

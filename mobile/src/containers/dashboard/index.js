@@ -7,22 +7,26 @@ import { View } from 'react-native';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+
 
 import SideBar from '../../components/sidebar';
 
 import {api} from '../../api';
 
 const styleSheet = createStyleSheet('ButtonAppBar', {
-  root: {
-//     marginTop: 30,
-//     width: '100%',
-  },
   flex: {
     flex: 1,
   },
+  loader: {
+    width: '100%',
+    position: 'absolute',
+    top: 56,
+    zIndex: '1000',
+  }
 });
 
 class Dashboard extends React.Component {
@@ -69,6 +73,9 @@ class Dashboard extends React.Component {
             </IconButton>
           </Toolbar>
         </AppBar>
+        
+        {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
+
         <SideBar open={this.state.sideBarOpen} handleClose={this.handleCloseSideBar} handleOpen={this.handleOpenSideBar}/>
       </View>
     );  
