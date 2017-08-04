@@ -84,7 +84,8 @@ class Profile extends React.Component {
 		const classes = this.props.classes;
 		
 		return (
-			<div>
+			<div style={{padding:20}}>
+				<Card raised>
 				<div className={classes.imageContainer}>
 					<img src={sampleImage} className={classes.image}/> 
 					<Typography type="headline" className={classes.name}>
@@ -143,6 +144,7 @@ class Profile extends React.Component {
 						/>
 					</ListItem>
 				</List>
+				</Card>
 
 				<Button fab color="primary" className={classes.saveButton} onClick={this.onSaveProfile}>
 					<SaveIcon />

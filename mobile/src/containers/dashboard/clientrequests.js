@@ -140,7 +140,7 @@ class ClientRequests extends React.Component {
 	onSettedUser (user) {
 		api.put('/request', json({
 			request_id: this.state.requests[this.state.settingIndex].id,
-			status: status,
+			status: this.state.settingStatus,
 			handler_id: user.id,
 			handler_name: user.name
 		})).then((res) => {

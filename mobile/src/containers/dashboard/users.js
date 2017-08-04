@@ -105,7 +105,7 @@ class Users extends React.Component {
 										<TableCell compact> {n.name} </TableCell>
 										<TableCell compact disablePadding> {n.role} </TableCell>
 										<TableCell compact disablePadding> 
-											{ (n.role != "admin") && 
+											{ 
 												<div>
 													<IconButton className={classes.button}>
 														<DeleteIcon />
