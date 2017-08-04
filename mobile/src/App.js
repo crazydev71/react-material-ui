@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Route } from 'react-router';	
-import { AsyncStorage, View} from 'react-native';
+import { View } from 'react-native';
 import { ConnectedRouter, push } from 'react-router-redux';
-import { MuiThemeProvider} from 'material-ui/styles/';
-import { Toast } from 'react-native-redux-toast';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
-// configuration
-import sagas from './sagas';
 import {configureStore, history} from './configureStore';
-import {api, json} from './api';
-
+import {api, json, setStore} from './api';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import createPalette from 'material-ui/styles/palette';
+import { blue, pink, red } from 'material-ui/colors';
+import { Toast } from 'react-native-redux-toast';
+import sagas from './sagas';
 import Routes from './routes';
 
+// configuration
+injectTapEventPlugin();
 const store = configureStore();
 sagas.forEach((saga) => store.runSaga(saga));
+setStore(store);
+
+const theme = createMuiTheme({
+	palette: createPalette({
+		primary: blue, // Purple and green play nicely together.
+		accent: {
+			...pink,
+			A400: '#EC407A',
+		},
+		error: red,
+	}),
+});
 
 class App extends Component {
 
@@ -26,7 +36,6 @@ class App extends Component {
 	}
 	
 	componentDidMount = async () => {
-		
 		api.post('/auth').then((res) => {
 			if (!res.ok) {
 				store.dispatch(push('/login'));
@@ -42,7 +51,7 @@ class App extends Component {
 		return (
 			<Provider store={store}>
 				<View>
-					<MuiThemeProvider>
+					<MuiThemeProvider theme={theme}>
 						<ConnectedRouter history={history} >
 							<Routes/>
 						</ConnectedRouter>

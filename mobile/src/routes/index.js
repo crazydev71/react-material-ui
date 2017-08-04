@@ -8,7 +8,6 @@ import Verification from '../containers/verification';
 import Home from '../containers/home';
 
 import Dashboard from '../containers/dashboard';
-
 import Users from '../containers/dashboard/users';
 import ClientRequests from '../containers/dashboard/clientrequests';
 import Transactions from '../containers/dashboard/transactions';
