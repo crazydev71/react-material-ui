@@ -1,19 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Text, ScrollView, View, TextInput, Button, Image } from 'react-native';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
+import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
 import { ToastActionsCreators } from 'react-native-redux-toast';
-
-
-
+import MaterialDateTimePicker from 'material-datetime-picker/dist/material-datetime-picker.js';
+import 'material-datetime-picker/dist/material-datetime-picker.css';
+import TextField from 'material-ui/TextField';
 import Spinner from 'react-md-spinner';
 import Logo from '../../assets/images/logo.png';
 import { Card } from '../../components';
-import { HistoryTable } from '../../components';
 import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
-
+import Checkbox from 'material-ui/Checkbox';
 import { api, json } from '../../api';
+import moment from 'moment';
+
+class DateTimePicker extends React.Component {
+	componentDidMount() {
+		this.picker = new MaterialDateTimePicker()
+			.on('submit', this.props.onSubmit)
+			.on('open', this.props.onOpen)
+			.on('close', this.props.onClose);
+
+		if (this.props.open == true)
+    	this.picker.open({default: Date.now()});
+	}
+  render() {
+    return (
+      <div></div>
+    )
+  }
+}
+
+DateTimePicker.propType = {
+    onOpen: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onClose: PropTypes.func
+}
 
 class Request extends React.Component {
 	constructor (props) {
@@ -22,11 +46,15 @@ class Request extends React.Component {
 			logs: [],
 			gender: 'male',
 			comment: '',
-			loading: false
+			loading: false,
+			fReserveTime: false,
+			fOpen: false,
+			time: moment(),
 		}
 		this.sendRequest = this.sendRequest.bind(this);
 		this.getLogs = this.getLogs.bind(this);
 		this.handleChangeGender = this.handleChangeGender.bind(this);
+		this.onSetTime = this.onSetTime.bind(this);
 	}
 	
 	getLogs () {
@@ -48,6 +76,7 @@ class Request extends React.Component {
 		const postData = {
 			gender: this.state.gender,
 			comment: this.state.comment,
+			request_time: this.state.fReserveTime ? this.state.time.format() : null
 		};
 		
 		api.post('/request', json(postData)).then((res) => {
@@ -57,14 +86,19 @@ class Request extends React.Component {
 			else
 				this.props.dispatch(ToastActionsCreators.displayInfo("Whoops, something went wrong!", 3000));
 		});
-  }
+	}
+	
+	onSetTime (value) {
+		console.log (value);
+		this.setState({time: value})
+	}
 	
 	componentDidMount() {
 		this.getLogs();
 	}
 	render () {
 		return (
-        <ScrollView>
+		<ScrollView>
 			<View>
 				<Image
 					resizeMode={Image.resizeMode.contain}
@@ -72,46 +106,65 @@ class Request extends React.Component {
 					style={styles.image}
 				/>
 			</View>
-            <View style={[{padding: 20}]}> 
-                <Text style={[{marginTop: 50},sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Twilio Form (Send Message)</Text>
-                
-                <RadioGroup
-                    aria-label="Gender"
-                    name="gender"
-                    selectedValue={this.state.gender}
-                    onChange={this.handleChangeGender}
-                    row
-                >
-                    <FormControlLabel value="male" control={<Radio />} label="Male" />
-                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                    <FormControlLabel value="other" control={<Radio />} label="Other" />
-                </RadioGroup> 
-                <br/>
+				<View style={[{padding: 20}]}> 
+					<Text style={[{marginTop: 50},sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Twilio Form (Send Message)</Text>
+					
+					<RadioGroup
+						aria-label="Gender"
+						name="gender"
+						selectedValue={this.state.gender}
+						onChange={this.handleChangeGender}
+						row
+					>
+						<FormControlLabel value="male" control={<Radio />} label="Male" />
+						<FormControlLabel value="female" control={<Radio />} label="Female" />
+						<FormControlLabel value="other" control={<Radio />} label="Other" />
+					</RadioGroup> 
+					<br/>
 
-                <TextInput
-                    accessibilityLabel='Additional Notes'
-                    onChange={(event) => this.setState({comment: event.target.value})}
-                    maxNumberOfLines={3}
-                    multiline
-                    numberOfLines={3}
-                    style={{ padding: 10, borderStyle: 'solid', borderWidth: 1 }}
-                    placeholder={`Comments`}
-                /> <br/>
+					<TextInput
+						accessibilityLabel='Additional Notes'
+						onChange={(event) => this.setState({comment: event.target.value})}
+						maxNumberOfLines={3}
+						multiline
+						numberOfLines={3}
+						style={{ padding: 10, borderStyle: 'solid', borderWidth: 1 }}
+						placeholder={`Comments`}
+					/> <br/>
 
-                <Button
-                    accessibilityLabel="Find Local RMT Now"
-                    color="#2196F3"
-                    onPress={() => this.sendRequest()}
-                    title="Find Local RMT Now"
-                />
-                {this.state.loading && <Spinner style={{marginTop: 20, marginLeft: 'auto', marginRight: 'auto'}} size={30}/>}
-            </View>
-        </ScrollView>
+					<Button
+						accessibilityLabel="Find Local RMT Now"
+						color="#2196F3"
+						onPress={() => this.sendRequest()}
+						title="Find Local RMT Now"
+					/>
+					<FormGroup col>
+					<FormControlLabel
+						control={<Checkbox checked={this.state.fReserveTime} onChange={(event, value) => this.setState({fReserveTime: value, fOpen: value})} />}
+						label="Reserve Time"
+					/>
+					{this.state.fReserveTime && 
+						<TextField
+							error
+							color="accent"
+							label="Reserved Time"
+							value={this.state.time.format('h:mm A,  MMMM Do, YYYY')}
+							margin="normal"
+							onFocus={()=>this.setState({fOpen: true})}
+						/>
+					}
+					</FormGroup>
+					{this.state.fOpen && (
+						<DateTimePicker open={this.state.fReserveTime} onSubmit={this.onSetTime} onOpen={()=>{}} onClose={()=>{this.setState({fOpen: false})}}/>
+					)
+					}
+			</View>
+		</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({user: state.user});
 const dispatchToProps = dispatch => ({dispatch});
 
 export default connect(mapStateToProps, dispatchToProps) (Request);
