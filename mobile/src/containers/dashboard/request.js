@@ -7,6 +7,7 @@ import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui
 import { ToastActionsCreators } from 'react-native-redux-toast';
 import MaterialDateTimePicker from 'material-datetime-picker/dist/material-datetime-picker.js';
 import 'material-datetime-picker/dist/material-datetime-picker.css';
+import '../../assets/styles/datetimepicker.css';
 import TextField from 'material-ui/TextField';
 import Spinner from 'react-md-spinner';
 import Logo from '../../assets/images/logo.png';
@@ -103,7 +104,7 @@ class Request extends React.Component {
 				<Image
 					resizeMode={Image.resizeMode.contain}
 					source={{ uri: Logo }}
-					style={styles.image}
+					style={[styles.image, {marginTop: 50}]}
 				/>
 			</View>
 				<View style={[{padding: 20}]}> 
@@ -138,21 +139,21 @@ class Request extends React.Component {
 						onPress={() => this.sendRequest()}
 						title="Find Local RMT Now"
 					/>
-					<FormGroup col>
-					<FormControlLabel
-						control={<Checkbox checked={this.state.fReserveTime} onChange={(event, value) => this.setState({fReserveTime: value, fOpen: value})} />}
-						label="Reserve Time"
-					/>
-					{this.state.fReserveTime && 
-						<TextField
-							error
-							color="accent"
-							label="Reserved Time"
-							value={this.state.time.format('h:mm A,  MMMM Do, YYYY')}
-							margin="normal"
-							onFocus={()=>this.setState({fOpen: true})}
+					<FormGroup>
+						<FormControlLabel
+							control={<Checkbox checked={this.state.fReserveTime} onChange={(event, value) => this.setState({fReserveTime: value, fOpen: value})} />}
+							label="Reserve Time"
 						/>
-					}
+						{this.state.fReserveTime && 
+							<TextField
+								error
+								color="accent"
+								label="Reserved Time"
+								value={this.state.time.format('h:mm A,  MMMM Do, YYYY')}
+								margin="normal"
+								onFocus={()=>this.setState({fOpen: true})}
+							/>
+						}
 					</FormGroup>
 					{this.state.fOpen && (
 						<DateTimePicker open={this.state.fReserveTime} onSubmit={this.onSetTime} onOpen={()=>{}} onClose={()=>{this.setState({fOpen: false})}}/>

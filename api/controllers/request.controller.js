@@ -66,7 +66,6 @@ const getRequests = (req, res) => {
       });
     });  
   }
-  
 }
 
 export const getAllRequests = async (req, res) => {

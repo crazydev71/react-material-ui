@@ -1,0 +1,32 @@
+.c-scrim {
+  z-index: 2000;
+}
+.c-datepicker {
+  min-height: 550px;
+  z-index: 2001;
+}
+.c-datepicker__header-day {
+  font-size: 16px;
+}
+.c-datepicker__header-date__day {
+  font-size: 40px;
+}
+.c-datepicker__toggle {
+  top: 125px;
+}
+.c-datepicker__header-date {
+  height: 100px;
+}
+
+.c-datepicker__days {
+  margin: 0 20px;
+}
+
+.c-datepicker__day-body {
+  height: 36px;
+}
+
+.modal-btns {
+  bottom: 0px;
+}
+
