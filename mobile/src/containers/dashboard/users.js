@@ -35,6 +35,7 @@ const styleSheet = createStyleSheet(theme => ({
 	},
 	paper: {
 		backgroundColor: "#FEFEFE",
+		overflowX: 'auto',
 	}
 }));
 
@@ -74,7 +75,7 @@ class Users extends React.Component {
 		})
 		return (
 			<ScrollView>
-				<View style={[{padding: 20}]}> 
+				<View style={[{padding: 10}]}> 
 					<Card className={classes.card} raised>
 						<CardContent>
 							<Typography type="headline" className={classes.cardHeader}>Mendr Users</Typography>
@@ -87,7 +88,7 @@ class Users extends React.Component {
 						User List (Total {this.state.users.length})
 					</Typography>
 					<br/>
-					<Paper className={classes.paper}>
+					<Paper className={classes.paper} elevation="10">
 						<Table>
 							<TableHead>
 								

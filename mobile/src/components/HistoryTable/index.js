@@ -22,7 +22,7 @@ class HistoryTable extends React.Component {
     const classes = this.props.classes;
     const data = this.props.dataSet
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation="10">
         <Table>
           <TableHead>
             <TableRow>

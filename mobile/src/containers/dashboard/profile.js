@@ -52,9 +52,7 @@ class Profile extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			profile: {
-
-			},
+			profile: { },
 			isChanged: false
 		}
 		this.onSaveProfile = this.onSaveProfile.bind(this);
@@ -84,7 +82,7 @@ class Profile extends React.Component {
 		const classes = this.props.classes;
 		
 		return (
-			<div style={{padding:20}}>
+			<div style={{padding:10}}>
 				<Card raised>
 				<div className={classes.imageContainer}>
 					<img src={sampleImage} className={classes.image}/> 

@@ -47,7 +47,10 @@ class Login extends React.Component {
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch({type:"SET_USER", payload: res.data.user});
         this.props.dispatch(ToastActionsCreators.displayInfo("Login succeeded!", 2000));
-        this.props.dispatch(push('/dashboard/request'));
+        if (res.data.user.role == 'client')
+          this.props.dispatch(push('/dashboard/request'));
+        else
+          this.props.dispatch(push('/dashboard/client-requests'));
         
       } else if (res.status === 203) {
 

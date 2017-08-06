@@ -40,7 +40,7 @@ class Transactions extends React.Component {
 	render () {
 		return (
 			<ScrollView>
-				<View style={[{padding: 20}]}> 
+				<View style={[{padding: 10}]}> 
 					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Transaction History [{this.props.user.role}]</Text>
                     <Text>Transaction Table Here</Text>
 				</View>

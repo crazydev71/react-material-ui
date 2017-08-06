@@ -62,7 +62,7 @@ const styleSheet = createStyleSheet(theme => ({
 		height: 30
 	},
 	container: {
-		padding: 20
+		padding: 10
 	},
 	card: {
 		marginBottom: 10,

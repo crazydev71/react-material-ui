@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { push } from 'react-router';
 import { Text, ScrollView, View, TextInput, Button, Image } from 'react-native';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
@@ -53,17 +54,8 @@ class Request extends React.Component {
 			time: moment(),
 		}
 		this.sendRequest = this.sendRequest.bind(this);
-		this.getLogs = this.getLogs.bind(this);
 		this.handleChangeGender = this.handleChangeGender.bind(this);
 		this.onSetTime = this.onSetTime.bind(this);
-	}
-	
-	getLogs () {
-		api.get('/logs').then((res) => {
-			console.log (res);
-			if (res.ok)
-				this.setState({logs: res.data});
-		});
 	}
 	
 	handleChangeGender(event, value) {
@@ -90,24 +82,22 @@ class Request extends React.Component {
 	}
 	
 	onSetTime (value) {
-		console.log (value);
 		this.setState({time: value})
 	}
 	
 	componentDidMount() {
-		this.getLogs();
+		if (this.props.user.role != 'client')
+			this.dispatch(push('/dashboard/client-requests'))
 	}
 	render () {
 		return (
-		<ScrollView>
-			<View>
-				<Image
-					resizeMode={Image.resizeMode.contain}
-					source={{ uri: Logo }}
-					style={[styles.image, {marginTop: 50}]}
-				/>
-			</View>
-				<View style={[{padding: 20}]}> 
+			<ScrollView>
+				<View style={[{padding: 10}]}> 
+					<Image
+						resizeMode={Image.resizeMode.contain}
+						source={{ uri: Logo }}
+						style={[styles.image, {marginTop: 50}]}
+					/>
 					<Text style={[{marginTop: 50},sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Twilio Form (Send Message)</Text>
 					
 					<RadioGroup
