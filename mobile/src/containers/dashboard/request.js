@@ -86,8 +86,6 @@ class Request extends React.Component {
 	}
 	
 	componentDidMount() {
-		if (this.props.user.role != 'client')
-			this.dispatch(push('/dashboard/client-requests'))
 	}
 	render () {
 		return (
