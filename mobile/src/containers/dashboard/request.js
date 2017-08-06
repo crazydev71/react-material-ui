@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { push } from 'react-router';
+import { push } from 'react-router-redux';
 import { Text, ScrollView, View, TextInput, Button, Image } from 'react-native';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
