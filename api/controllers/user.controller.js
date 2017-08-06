@@ -5,7 +5,8 @@ import utils from '../utils'
 
 
 export const login = (req, res) => {
-  const {email, password} = req.body;
+  let {email, password} = req.body;
+  email = email.toLowerCase();
 
   User.where('email', email).fetch().then((model) => {
     if (model) {
@@ -34,7 +35,8 @@ export const login = (req, res) => {
 
 
 export const register = (req, res) => {
-  const {name, email, password} = req.body;
+  let {name, email, password} = req.body;
+  email = email.toLowerCase();
   
   User.where('email', email).fetch().then(function(user) {
     if (user) {

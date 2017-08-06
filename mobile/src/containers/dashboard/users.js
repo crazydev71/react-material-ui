@@ -88,7 +88,7 @@ class Users extends React.Component {
 						User List (Total {this.state.users.length})
 					</Typography>
 					<br/>
-					<Paper className={classes.paper} elevation="10">
+					<Paper className={classes.paper} elevation={10}>
 						<Table>
 							<TableHead>
 								
