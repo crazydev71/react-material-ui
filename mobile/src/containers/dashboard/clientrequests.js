@@ -12,6 +12,7 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
+import moment from 'moment';
 
 import { api, json } from '../../api';
 
@@ -109,6 +110,11 @@ class ClientRequests extends React.Component {
 			settingStatus: '',
 			settingGender: '',
 			isSetting: false,
+			filters: {
+				status: 'assigned',
+				requestTime: 'ASC',
+				createdTime: 'ASC'
+			}
 		}
 		this.getUsers = this.getUsers.bind(this);
 		this.getRequests = this.getRequests.bind(this);
@@ -167,22 +173,32 @@ class ClientRequests extends React.Component {
 		}
 	}
 
+	
+
 	render () {
 		const classes = this.props.classes;
+		const filteredRequests = this.state.requests
+		.filter( request => request.status=='assigned')
+		.sort((a,b)=>{ 
+			if (!a.request_time) return false;
+			if (!b.request_time) return true;
+			return a.request_time > b.request_time;
+		});
 		return (
 			<div className={classes.container}>
 			{
-				this.state.requests.map((n, index) => (
+				filteredRequests.map((n, index) => (
 					<Slide key={n.id} in={this.state.isLoaded} enterTransitionDuration={500} leaveTransitionDuration={500} direction="down">
 						<Card className={classes.card} raised>
 							<CardContent className={classes.cardContent}>
-								
-								<div style={{display:'float'}}>
-									{n.gender==='male' && <Avatar style={{background:"#673AB7", color:"white", float:'left', marginRight: 10}}>M</Avatar>}
-									{n.gender==='female' && <Avatar style={{background:"#FF5722", color:"white", float:'left', marginRight: 10}}>Fe</Avatar>}
-									{n.gender==='other' && <Avatar style={{background:"#607D8B", color:"white", float:'left', marginRight: 10}}>X</Avatar>}
+								{n.gender==='male' && <Avatar style={{background:"#673AB7", color:"white", float:'left', marginRight: 10}}>M</Avatar>}
+								{n.gender==='female' && <Avatar style={{background:"#FF5722", color:"white", float:'left', marginRight: 10}}>Fe</Avatar>}
+								{n.gender==='other' && <Avatar style={{background:"#607D8B", color:"white", float:'left', marginRight: 10}}>X</Avatar>}
+								<div style={{display:'block', marginLeft: "50", overflow: 'wrap'}}>
+									
 									<Typography type="subheading">Request from {n.name}</Typography>
-									<Typography type="body2">{n.comment}</Typography>
+									<Typography type="body2">Comment: {n.comment}</Typography>
+									<Typography type="body2">Requested Time: {n.request_time ? n.request_time : "ASAP"}</Typography>
 								</div>
 							</CardContent>
 							<Divider/>
