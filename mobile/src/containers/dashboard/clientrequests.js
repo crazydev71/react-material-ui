@@ -13,6 +13,7 @@ import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
+import Menu, { MenuItem } from 'material-ui/Menu';	
 
 import { api, json } from '../../api';
 
@@ -95,6 +96,14 @@ const styleSheet = createStyleSheet(theme => ({
 		top:0,
 		right: 0,
 		padding: 5
+	},
+	filter: {
+		marginBottom: 10,
+	},
+	filterButton: {
+		fontSize: 12,
+		padding: 5,
+		fontWeight: 'bold'
 	}
 }));
 
@@ -113,8 +122,10 @@ class ClientRequests extends React.Component {
 			filters: {
 				status: 'assigned',
 				requestTime: 'ASC',
-				createdTime: 'ASC'
-			}
+				createdTime: ''
+			},
+			anchorEl: undefined,
+			open: false,
 		}
 		this.getUsers = this.getUsers.bind(this);
 		this.getRequests = this.getRequests.bind(this);
@@ -173,54 +184,123 @@ class ClientRequests extends React.Component {
 		}
 	}
 
-	
+	handleClick = event => {
+    this.setState({ open: true, anchorEl: event.currentTarget });
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
 
 	render () {
 		const classes = this.props.classes;
-		const filteredRequests = this.state.requests
-		.filter( request => request.status=='assigned')
-		.sort((a,b)=>{ 
-			if (!a.request_time) return false;
-			if (!b.request_time) return true;
-			return a.request_time > b.request_time;
-		});
+		const filters = this.state.filters;
+		let filteredRequests = this.state.requests;
+		if (filters.status != '')
+			filteredRequests = filteredRequests.filter( request => request.status==this.state.filters.status );
+		if (filters.createdTime != '')
+			filteredRequests = filteredRequests.sort((a,b)=>{ 
+				if (this.state.filters.createdTime == 'ASC') {
+					if (!a.created_at) return false;
+					if (!b.created_at) return true;
+					return a.created_at >= b.created_at;
+				} else if (this.state.filters.requestTime == 'DESC') {
+					if (!a.created_at) return true;
+					if (!b.created_at) return false;
+					return a.created_at < b.created_at;
+				}
+				return false;
+			});
+
+		if (filters.requestTime != '')
+			filteredRequests = filteredRequests.sort((a,b)=>{ 
+				if (this.state.filters.requestTime == 'ASC') {
+					if (!a.request_time) return false;
+					if (!b.request_time) return true;
+					return a.request_time >= b.request_time;
+				} else if (this.state.filters.requestTime == 'DESC') {
+					if (!a.request_time) return true;
+					if (!b.request_time) return false;
+					return a.request_time < b.request_time;
+				}
+			});
+		
 		return (
 			<div className={classes.container}>
-			{
-				filteredRequests.map((n, index) => (
-					<Slide key={n.id} in={this.state.isLoaded} enterTransitionDuration={500} leaveTransitionDuration={500} direction="down">
-						<Card className={classes.card} raised>
-							<CardContent className={classes.cardContent}>
-								{n.gender==='male' && <Avatar style={{background:"#673AB7", color:"white", float:'left', marginRight: 10}}>M</Avatar>}
-								{n.gender==='female' && <Avatar style={{background:"#FF5722", color:"white", float:'left', marginRight: 10}}>Fe</Avatar>}
-								{n.gender==='other' && <Avatar style={{background:"#607D8B", color:"white", float:'left', marginRight: 10}}>X</Avatar>}
-								<div style={{display:'block', marginLeft: "50", overflow: 'wrap'}}>
-									
-									<Typography type="subheading">Request from {n.name}</Typography>
-									<Typography type="body2">Comment: {n.comment}</Typography>
-									<Typography type="body2">Requested Time: {n.request_time ? n.request_time : "ASAP"}</Typography>
+				<div className={classes.filter}>
+					<Button color="accent" onClick={this.handleClick} className={classes.filterButton}>
+						{filters.status == '' && 'All'}
+						{filters.status == 'open' && 'New'}
+						{filters.status == 'assigned' && 'Accepted'}
+						{filters.status == 'completed' && 'Completed'}
+					</Button><br/>
+					<Menu
+						id="simple-menu"
+						anchorEl={this.state.anchorEl}
+						open={this.state.open}
+						onRequestClose={this.handleRequestClose}
+					>
+						<MenuItem onClick={() => {this.handleRequestClose(); this.setState({filters: {...filters, status: ''}})}}>All</MenuItem>
+						<MenuItem onClick={() => {this.handleRequestClose(); this.setState({filters: {...filters, status: 'open'}})}}>New</MenuItem>
+						<MenuItem onClick={() => {this.handleRequestClose(); this.setState({filters: {...filters, status: 'assigned'}})}}>Accepted</MenuItem>
+						<MenuItem onClick={() => {this.handleRequestClose(); this.setState({filters: {...filters, status: 'completed'}})}}>Completed</MenuItem>
+					</Menu>
+					<Button 
+						className={classes.filterButton}
+						color="primary" 
+						onClick={()=>this.setState({filters: {...filters, requestTime: filters.requestTime == 'ASC' ? 'DESC' : 'ASC', createdTime: ''}})}
+					>
+						Time Requested {filters.requestTime == 'ASC' ? String.fromCharCode( "8593" ) : (filters.requestTime == 'DESC' ? String.fromCharCode( "8595" ) : '')}
+					</Button>
+					<Button 
+						className={classes.filterButton}
+						color="primary" 
+						onClick={()=>this.setState({filters: {...filters, createdTime: filters.createdTime == 'ASC' ? 'DESC' : 'ASC', requestTime: ''}})}
+					>
+						Time Created {filters.createdTime == 'ASC' ? String.fromCharCode( "8593" ) : (filters.createdTime == 'DESC' ? String.fromCharCode( "8595" ) : '')}
+					</Button>
+					<Button 
+						className={classes.filterButton}
+						color="primary" 
+						onClick={()=>this.setState({filters: {status:'All', createdTime: '', requestTime: ''}})}
+					>
+						No Sorting
+					</Button>
+				</div>
+				{
+					filteredRequests.map((n, index) => (
+						<Slide key={n.id} in={this.state.isLoaded} enterTransitionDuration={500} leaveTransitionDuration={500} direction="down">
+							<Card className={classes.card} raised>
+								<CardContent className={classes.cardContent}>
+									{n.gender==='male' && <Avatar style={{background:"#673AB7", color:"white", float:'left', marginRight: 10}}>M</Avatar>}
+									{n.gender==='female' && <Avatar style={{background:"#FF5722", color:"white", float:'left', marginRight: 10}}>Fe</Avatar>}
+									{n.gender==='other' && <Avatar style={{background:"#607D8B", color:"white", float:'left', marginRight: 10}}>X</Avatar>}
+									<div style={{display:'block', marginLeft: "50px", overflow: 'wrap'}}>
+										<Typography type="subheading">Request from {n.name}</Typography>
+										<Typography type="body2">Comment: {n.comment}</Typography>
+										<Typography type="body2">Requested Time: {n.request_time ? n.request_time : "ASAP"}</Typography>
+									</div>
+								</CardContent>
+								<Divider/>
+								<div className={classes.cardActions}>
+									<Typography className={classes.time}>{n.created_at}</Typography>
+									{n.status==='open' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'assigned')}>Accept</Button>}
+									{n.status==='assigned' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'completed')}>Completed</Button>}
+									{/* <Button dense className={classes.actionButton}>Decline</Button> */}
 								</div>
-							</CardContent>
-							<Divider/>
-							<div className={classes.cardActions}>
-								<Typography className={classes.time}>{n.created_at}</Typography>
-								{n.status==='open' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'assigned')}>Accept</Button>}
-								{n.status==='assigned' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'completed')}>Completed</Button>}
-								{/* <Button dense className={classes.actionButton}>Decline</Button> */}
-							</div>
-							{n.status==='open' && <div className={classes.status}>New !</div>}
-							{n.status==='assigned' && <div className={classes.status} style={{backgroundColor:'#3F51B5'}}>Accepted</div>}
-							{n.status==='completed' && <div className={classes.status} style={{backgroundColor:'#009688'}}>Completed</div>}
-						</Card>
-					</Slide>
-				))
-			}
-			<UserList open={this.state.isSetting}
-			 	filter={this.state.settingGender}
-				users={this.state.users}  
-				onSetUser={this.onSettedUser}
-				onRequestClose={() => this.setState({isSetting: false})}>
-			</UserList> 
+								{n.status==='open' && <div className={classes.status}>New !</div>}
+								{n.status==='assigned' && <div className={classes.status} style={{backgroundColor:'#3F51B5'}}>Accepted</div>}
+								{n.status==='completed' && <div className={classes.status} style={{backgroundColor:'#009688'}}>Completed</div>}
+							</Card>
+						</Slide>
+					))
+				}
+				<UserList open={this.state.isSetting}
+					filter={this.state.settingGender}
+					users={this.state.users}  
+					onSetUser={this.onSettedUser}
+					onRequestClose={() => this.setState({isSetting: false})}>
+				</UserList> 
 			</div>
 		);
 	}
