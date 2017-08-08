@@ -262,7 +262,7 @@ class ClientRequests extends React.Component {
 					<Button 
 						className={classes.filterButton}
 						color="primary" 
-						onClick={()=>this.setState({filters: {status:'All', createdTime: '', requestTime: ''}})}
+						onClick={()=>this.setState({filters: {status:'', createdTime: '', requestTime: ''}})}
 					>
 						No Sorting
 					</Button>
