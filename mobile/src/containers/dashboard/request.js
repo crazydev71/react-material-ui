@@ -94,6 +94,7 @@ class Request extends React.Component {
 	
 	componentDidMount() {
 	}
+
 	render () {
 		return (
 			<ScrollView>

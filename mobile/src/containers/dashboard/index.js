@@ -33,7 +33,8 @@ class Dashboard extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      sideBarOpen: false
+      sideBarOpen: false,
+      title: "Dashboard"
     };
     
     this.handleOpenSideBar = this.handleOpenSideBar.bind(this);
@@ -61,6 +62,30 @@ class Dashboard extends React.Component {
 
   componentWillReceiveProps = (newProps) => {
     console.log(newProps);
+    const path = newProps.location.pathname;
+    switch (path) {
+      case "/dashboard/history":
+        this.setState({title: "History"});
+        break;
+      case "/dashboard/request":
+        this.setState({title: "Send Request"});
+        break;
+      case "/dashboard/transactions":
+        this.setState({title: "Transactions"});
+        break;
+      case "/dashboard/users":
+        this.setState({title: "Users"});
+        break;
+      case "/dashboard/profile":
+        this.setState({title: "Manage Profile"});
+        break;
+      case "/dashboard/client-requests":
+        this.setState({title: "Client Requests"});
+        break;
+      default:
+        this.setState({title: "Dashboard"});
+        break;
+    }
   }
   
   render () {
@@ -70,7 +95,7 @@ class Dashboard extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Dashboard
+              {this.state.title}
             </Typography>
             <IconButton color="contrast" aria-label="Menu" onClick={()=>this.handleOpenSideBar()}>
               <MenuIcon />
