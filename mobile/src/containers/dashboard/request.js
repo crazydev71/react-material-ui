@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
-import { Text, ScrollView, View, TextInput, Button, Image } from 'react-native';
+import { Text, ScrollView, View, TextInput, Image } from 'react-native';
 import Radio, { RadioGroup } from 'material-ui/Radio';
+import Grid from 'material-ui/Grid';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 import MaterialDateTimePicker from 'material-datetime-picker/dist/material-datetime-picker.js';
 import 'material-datetime-picker/dist/material-datetime-picker.css';
+
 import '../../assets/styles/datetimepicker.css';
 import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 import Spinner from 'react-md-spinner';
 import Logo from '../../assets/images/logo.png';
 import { Card } from '../../components';
@@ -82,7 +85,11 @@ class Request extends React.Component {
 	}
 	
 	onSetTime (value) {
-		this.setState({time: value})
+		this.setState({time: value});
+		api.post('/calendar/freebusy', json({time: this.state.time}))
+		.then((res) => {
+			console.log(res);
+		})
 	}
 	
 	componentDidMount() {
@@ -122,15 +129,30 @@ class Request extends React.Component {
 					/> <br/>
 
 					<Button
-						accessibilityLabel="Find Local RMT Now"
-						color="#2196F3"
-						onPress={() => this.sendRequest()}
-						title="Find Local RMT Now"
-					/>
+						color="primary"
+						raised
+						onClick={() => this.sendRequest()}>
+						Find Local RMT Now
+					</Button>
+					<br/>
+					<Grid container style={{width:"100%"}}>
+						<Grid item xs="6" sm="6">
+							<Button color="primary" onClick={()=>{this.setState({fReserveTime: false, fOpen: false})}} style={{width:"100%"}}>
+								ASAP
+							</Button>
+						</Grid>
+						<Grid item xs="6" sm="6">
+							<Button color="primary" onClick={()=>{this.setState({fReserveTime: true, fOpen: true})}} style={{width:"100%"}}>
+								Schedule
+							</Button>
+						</Grid>
+					</Grid>
+
 					<FormGroup>
-						<FormControlLabel
+						<FormControlLabel 
 							control={<Checkbox checked={this.state.fReserveTime} onChange={(event, value) => this.setState({fReserveTime: value, fOpen: value})} />}
 							label="Reserve Time"
+							style={{display: "none"}}
 						/>
 						{this.state.fReserveTime && 
 							<TextField

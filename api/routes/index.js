@@ -3,6 +3,7 @@ import express from 'express';
 import * as UserController from '../controllers/user.controller';
 import * as LogController from '../controllers/log.controller';
 import * as RequestController from '../controllers/request.controller';
+import * as CalendarController from '../controllers/calendar.controller';
 
 const router = express.Router();
 
@@ -36,5 +37,9 @@ router.route('/requests')
 
 router.route('/profile')
 	.post(UserController.updateProfile);
+
+router.route('/calendar/freebusy')
+	.post(CalendarController.checkFreeBusy);
+
 
 export default router;

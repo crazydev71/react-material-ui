@@ -58,6 +58,10 @@ class Dashboard extends React.Component {
   componentDidMount = () => {
     this.authUser();
   }
+
+  componentWillReceiveProps = (newProps) => {
+    console.log(newProps);
+  }
   
   render () {
     const classes = this.props.classes;

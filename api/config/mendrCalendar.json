@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mendr-176319",
+  "private_key_id": "f905575d9972a02c38dd6ee12aa2d7af342755b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCjs2SjmDclz5Wz\nIWuYVu60Q6tgDaIystFIunl4gRsjqE4IcEsMba+WvSIhg1ycXKjM6T/45KkNtql5\nYdB2t7wbv6g0PCAVVyk7D8HXRiYl54ZZEOfYcUDgN4ai2bPfhdNjmkOqp6eU9yhE\nJTMKeKko/+DSxXEJMcmtlQBSvE3klC0DOf+2IjZtcrEKQuFQcWc8r6Bn8IVHgHiG\nS1j2dILkQwT1BDjXkxtXePc/81KJIenOOUjAf+K+NyTvfwXQUEyfg7TYCeMmcTZO\nxCB+70WU3qtjG9RWT5R2vJ6pFjOJ4WB97asvo9H1L9j88XkAe5Plxd5xg+MvxbI9\nsNx1J0XZAgMBAAECggEAQm9ah34N2318bn9AsEmPhH71/PxreBHUF6T+CSa0Qetb\nB9eyzW9yVEWbpWgvXJHKO6bpvHPoG9Wmv8kvlg6I++XzOIeyKZb+96Y0b85bSwTE\nJD9VKCUGRDiknlClzC/+kyyXC5oQy8bmg4lpRnWjiS0XK9LPRgD7rUOMJweewQWu\nOEIl4+W09gzYJa6ugZzoMXVuYErCabE/uYbOSlobw06/7uE2C4GxUmLu9K+KQbqf\nKg0c10LBwhB+YBPzAm8CQEB70+SmEGFgvySRZzqf+pNLoaFRiC/1QtTZYMSF2KMk\nrgAQzK7+uXtZWARL7hlsJwm+J5ojuK0Dfz2pUkqKtQKBgQDnei8JkNQaTEp1uPxx\nvP9aCpAtYEoFkdfa/IZpeCrs53UxkvnM6SM6DG4LdN+h2KmjVhYjmyniI6SFT55a\n/ayS5Vfdupk9jaZf/rfoxTvHsl/qH2kriL6eKwiNeUrO5j7QwE3myBJ4L2J6EinF\nKrKcXLwM+fRgvjUBMdHeLrWaGwKBgQC1CxC8M7Bf1ctMjRF1DMHCXcu2T/QDVEFk\nLKj+2AnANYKrlijUAsSSx7IKB456jg+kLs9tNyCI1IhvluxQF644ThVa7YCROFqP\nAS0e7GCUJ8ivBofTcAFP5fH+SV6Vph5PFlT2ZmU+jFRsQQjTpHPoN57I5bexAJGL\n63O5qHBfGwKBgCU3fuKR15hW1c3xrRz4XzHx6tZw2dXlagg6e73vZS9r02riD6nD\nfjdyEitjYiVaeYPabnrREr3aLzSD5ZkJmjqQBz2OJ98+rBZZFOam94KXClbRMA6g\n0M0LbDea3c1ANa9Ii/3kAxwxuiqYSwD5aXg8bLvFYGZBjrIfeXe4mNgrAoGBAKAK\nThrw3oN5bSQYuEvuoQH/BGv/tceTndK+IA5YUBZXt1GThjgU0kymt15iW7M/Ddin\ngLodN2d96bYrhm8u39XqQLqGpVa6qGMuOQLTFnUhzifa8AsbQi2tKgUOOsyzcqub\nJDRFRE7Monyn6POets+bC4SwfXe89uznkP+YRO3tAoGBAKhTim/0+2nsjQudI0Ba\nEqm0npJeFUnqkrB3tpKnKiU0SAHIKXYwF5C8SPdvR5MzUijRfSazFQyUJTfVyUhT\n+JToQJ5J3FYtI/iCEBhDOTxMHLsnE5ATTXSuj9DDHjilPf3BdHK+QYEESz1CqV5h\nR6IMqlsGXneDFmUguOyQpiNp\n-----END PRIVATE KEY-----\n",
+  "client_email": "mendradmin@mendr-176319.iam.gserviceaccount.com",
+  "client_id": "102316258587623082774",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mendradmin%40mendr-176319.iam.gserviceaccount.com"
+}
