@@ -33,7 +33,8 @@ router.route('/request')
   .put(RequestController.updateRequest);
 
 router.route('/requests')
-  .get(RequestController.getAllRequests);
+  .get(RequestController.getAllRequests)
+  .post(RequestController.getAllBookings);
 
 router.route('/profile')
 	.post(UserController.updateProfile);
@@ -41,5 +42,7 @@ router.route('/profile')
 router.route('/calendar/freebusy')
 	.post(CalendarController.checkFreeBusy);
 
+router.route('/calendar')
+	.get(CalendarController.getEventsList)
 
 export default router;

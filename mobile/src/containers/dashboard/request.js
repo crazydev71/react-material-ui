@@ -179,37 +179,6 @@ class Request extends React.Component {
 						source={{ uri: Logo }}
 						style={[styles.image, {marginTop: 70}]}
 					/>
-					{/*<Text style={[{marginTop: 50},sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>Twilio Form (Send Message)</Text>
-					
-					 <RadioGroup
-						aria-label="Gender"
-						name="gender"
-						selectedValue={this.state.gender}
-						onChange={this.handleChangeGender}
-						row
-					>
-						<FormControlLabel value="male" control={<Radio />} label="Male" />
-						<FormControlLabel value="female" control={<Radio />} label="Female" />
-						<FormControlLabel value="other" control={<Radio />} label="Other" />
-					</RadioGroup><br/>
-
-					<TextInput
-						accessibilityLabel='Additional Notes'
-						onChange={(event) => this.setState({comment: event.target.value})}
-						maxNumberOfLines={3}
-						multiline
-						numberOfLines={3}
-						style={{ padding: 10, borderStyle: 'solid', borderWidth: 1 }}
-						placeholder={`Comments`}
-					/><br/>
-
-					<Button
-						color="primary"
-						raised
-						onClick={() => this.sendRequest()}>
-						Find Local RMT Now
-					</Button><br/> */}
-
 					<Grid container className={classes.grid} direction="column" align="center">
 						<Grid item xs="12" sm="12" >
 							<Button 

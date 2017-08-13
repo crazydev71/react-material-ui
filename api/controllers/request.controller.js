@@ -28,22 +28,28 @@ export const sendRequest = async (req, res) => {
     
     //send sms
     
-    if (gender == 'female') {
-      const smsId = await utils.sendSMS(FEMALE , message);
-    } else {
-      const smsId = await utils.sendSMS(MALE , message);
-    }
+    // if (gender == 'female') {
+    //   const smsId = await utils.sendSMS(FEMALE , message);
+    // } else {
+    //   const smsId = await utils.sendSMS(MALE , message);
+    // }
     
-    console.log(newRequest.toJSON());
-
     addLog(user.id, user.name, "request", "gender", gender);
-    return res.json({ success: true });
+
+    return res.json(newRequest.toJSON());
     
   } catch (err) {
     return res.json({ success: false, error: err });
   }
 };
 
+export const getAllBookings = (req, res) => {
+  Request.where('status', '!=', 'completed').orderBy('created_at', 'DESC').fetchAll().then((data, err) => {
+    if (err)
+      return res.status(405).json({msg: "error"});
+    return res.json(data.toJSON())
+  });
+}
 
 const getRequests = (req, res) => {
   const user = req.user.toJSON();
