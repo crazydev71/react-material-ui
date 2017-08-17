@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux'
 import PropTypes from 'prop-types';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { View } from 'react-native';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -17,7 +17,7 @@ import SideBar from '../../components/sidebar';
 
 import {api} from '../../api';
 
-const styleSheet = createStyleSheet('ButtonAppBar', {
+const styleSheet = theme => ({
   flex: {
     flex: 1,
   },
@@ -91,7 +91,7 @@ class Dashboard extends React.Component {
   render () {
     const classes = this.props.classes;
     return (
-      <View className={classes.root}>
+      <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
         {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
 
         <SideBar open={this.state.sideBarOpen} handleClose={this.handleCloseSideBar} handleOpen={this.handleOpenSideBar}/>
-      </View>
+      </div>
     );  
   }  
 }

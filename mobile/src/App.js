@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { View } from 'react-native';
 import { ConnectedRouter, push } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {configureStore, history} from './configureStore';
@@ -8,7 +7,7 @@ import {api, json, setStore} from './api';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
 import { blue, pink, red } from 'material-ui/colors';
-import { Toast } from 'react-native-redux-toast';
+import Toaster from './components/Toaster';
 import sagas from './sagas';
 import Routes from './routes';
 
@@ -50,14 +49,14 @@ class App extends Component {
 	render () {
 		return (
 			<Provider store={store}>
-				<View>
-					<MuiThemeProvider theme={theme}>
+				<MuiThemeProvider theme={theme}>
+					<div>
 						<ConnectedRouter history={history} >
 							<Routes/>
 						</ConnectedRouter>
-					</MuiThemeProvider>
-					<Toast messageStyle={{ color: 'white' }} />
-				</View>
+						<Toaster />
+					</div>
+				</MuiThemeProvider>
 			</Provider>
 		)
 	}

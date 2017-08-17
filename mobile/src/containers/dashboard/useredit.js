@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Radio, { RadioGroup } from 'material-ui/Radio';
@@ -20,7 +20,7 @@ import { api, json } from '../../api';
 import sampleImage from '../../assets/images/sample.jpg';
 
 
-const styleSheet = createStyleSheet(theme=>({
+const styleSheet = theme=>({
 	
   imageContainer: {
 		position: 'relative'
@@ -49,7 +49,7 @@ const styleSheet = createStyleSheet(theme=>({
 		bottom: 20,
 		right: 20
 	}
-}));
+});
 
 class UserEdit extends React.Component {
 	constructor (props) {

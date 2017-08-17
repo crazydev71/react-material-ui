@@ -1,18 +1,28 @@
 import React from 'react'
 import {Image, Text, View, ScrollView, TextInput, Button, AsyncStorage} from 'react-native'
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { ToastActionsCreators } from 'react-native-redux-toast';
+import { withStyles } from 'material-ui/styles';
+import Grid, { GridItems } from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
 
+import { ToasterActions } from '../../components/Toaster';
+import Logo from '../../assets/images/logo.png';
 import {api, json} from '../../api';
 
-import Logo from '../../assets/images/logo.png';
+
 import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
 import {Loader, Title } from '../../components';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
+
+const styleSheets = theme => ({
+  logo: {
+    maxWidth: 300,
+    height: '100%'
+  },
+});
 
 class Login extends React.Component {
   constructor(props) {
@@ -39,14 +49,14 @@ class Login extends React.Component {
       
       if (!res.ok) {
         
-        this.props.dispatch(ToastActionsCreators.displayError("Invalid username or password!", 2000));
+        this.props.dispatch(ToasterActions.showToaster("Invalid username and password!", 'failed', 3000));
         return;
         
       } else if (res.status === 200) {
 
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch({type:"SET_USER", payload: res.data.user});
-        this.props.dispatch(ToastActionsCreators.displayInfo("Login succeeded!", 2000));
+        this.props.dispatch(ToasterActions.showToaster("Login succeeded!", 'success', 3000));
         if (res.data.user.role == 'client')
           this.props.dispatch(push('/dashboard/request'));
         else
@@ -56,23 +66,24 @@ class Login extends React.Component {
 
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch({type:"SET_USER", payload: res.data.user});
-        this.props.dispatch(ToastActionsCreators.displayWarning("Please verify you!", 2000));
+        this.props.dispatch(ToasterActions.showToaster("Please verify you!", 'warning', 3000));
         this.props.dispatch(push('/register/verify'));
-
       }
     });
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <ScrollView contentContainerStyle={styles.card}>
-        <View>
-          <Image
-            resizeMode={Image.resizeMode.contain}
-            source={{ uri: Logo }}
-            style={styles.image}
+        <Grid 
+          container
+          justify="center"
+        >
+          <img
+            src={Logo}
+            className={classes.logo}
           />
-          <Title> Massage that Travels </Title>
+          <Typography type='title' className={classes.title}> Massage that Travels </Typography>
           <View style={{ flex: 1, justifyContent: 'center'}}>
             <Text style={[
               { textAlign: 'center', marginTop: 30, },
@@ -119,7 +130,6 @@ class Login extends React.Component {
                  onPress={() => this.sendRequest()}
                  title="Login"
                /><br/>
-                   
                <Text style={[
                             { textAlign: 'center' },
                             colorStyles['gray'],
@@ -128,8 +138,7 @@ class Login extends React.Component {
                  Don't you have an account? Please <Text style={[colorStyles[`green`],]} onPress={() => this.props.dispatch(push('/register'))}>register here</Text>
                </Text>
              </View> : <Loader /> }
-        </View>
-      </ScrollView>
+        </Grid>
     );
   }
 }
@@ -137,4 +146,4 @@ class Login extends React.Component {
 const mapStateToProps = state => state;
 const dispatchToProps = dispatch => ({dispatch});
 
-export default connect(mapStateToProps, dispatchToProps)(Login);
+export default connect(mapStateToProps, dispatchToProps)(withStyles(styleSheets)(Login));

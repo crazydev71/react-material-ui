@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { api, json } from '../../api';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Card, { CardHeader, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
@@ -17,7 +17,7 @@ import ModeEditIcon from 'material-ui-icons/ModeEdit';
 
 import UserEdit from './useredit';
 
-const styleSheet = createStyleSheet(theme => ({
+const styleSheet = theme => ({
   button: {
 		width: 30,
 		height: 30
@@ -37,7 +37,7 @@ const styleSheet = createStyleSheet(theme => ({
 		backgroundColor: "#FEFEFE",
 		overflowX: 'auto',
 	}
-}));
+});
 
 
 class Users extends React.Component {

@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 
-const styleSheet = createStyleSheet('BasicTable', theme => ({
+const styleSheet = theme => ({
   paper: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     maxHeight: '400px'
   },
-}));
+});
 
 class HistoryTable extends React.Component {
   constructor (props) {

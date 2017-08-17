@@ -6,7 +6,7 @@ import { Text, ScrollView, View, TextInput, Image } from 'react-native';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 import { addBookingAction } from 'react-pro-booking-calendar';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
@@ -64,7 +64,7 @@ const formatTime = (time, timeSlot) => {
 	return time;
 }
 
-const styleSheet = createStyleSheet({
+const styleSheet = theme => ({
   appBar: {
     position: 'relative',
   },

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -92,7 +92,7 @@ class Booking extends React.Component {
 
 Booking = connect()(Booking);
 
-const styleSheet = createStyleSheet({
+const styleSheet = theme => ({
   appBar: {
     position: 'relative',
   },

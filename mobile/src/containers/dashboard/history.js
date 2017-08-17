@@ -10,7 +10,7 @@ import { HistoryTable } from '../../components';
 import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
 
 import { api, json } from '../../api';
-// import { withStyles, createStyleSheet } from 'material-ui/styles';
+// import { withStyles } from 'material-ui/styles';
 // import Button from 'material-ui/Button';
 
 class History extends React.Component {

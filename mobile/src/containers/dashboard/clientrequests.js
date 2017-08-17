@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
@@ -58,7 +58,7 @@ UserList.propTypes = {
 };
 
 
-const styleSheet = createStyleSheet(theme => ({
+const styleSheet = theme => ({
   button: {
 		width: 30,
 		height: 30
@@ -105,7 +105,7 @@ const styleSheet = createStyleSheet(theme => ({
 		padding: 5,
 		fontWeight: 'bold'
 	}
-}));
+});
 
 
 class ClientRequests extends React.Component {

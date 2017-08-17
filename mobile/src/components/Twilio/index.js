@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Dialog, {DialogTitle, DialogContent, DialogActions} from 'material-ui/Dialog';
 import Typography from 'material-ui/Typography';
 
-const styleSheet = createStyleSheet(theme => ({
+const styleSheet = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -26,7 +26,7 @@ const styleSheet = createStyleSheet(theme => ({
   radioLabel: {
     padding: 10
   }
-}));
+});
 
 class TwilioForm extends React.Component {
   constructor(props) {

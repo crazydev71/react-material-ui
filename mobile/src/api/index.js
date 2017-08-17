@@ -1,8 +1,10 @@
 import apisauce from 'apisauce';
 import {AsyncStorage} from 'react-native';
 // const baseURL = 'http://34.230.4.60:5000/api';
+// const baseURL = 'http://192.168.1.121:5000/api';
 
-const baseURL = 'http://192.168.1.121:5000/api';
+const baseURL = `${window.location.protocol}//${window.location.hostname}:5000/api`;
+
 let reduxStore = undefined;
 
 export const json = (data) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import { View } from 'react-native';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
@@ -17,7 +17,7 @@ import PermPhoneMsgIcon from 'material-ui-icons/PermPhoneMsg';
 import PersonIcon from 'material-ui-icons/Person';
 
 
-const styleSheet = createStyleSheet('Sidebar', {
+const styleSheet = theme => ({
   list: {
     width: 250,
     flex: 'initial',
@@ -44,7 +44,6 @@ class SideBar extends Component
   
   render() {
     const classes = this.props.classes;
-    
     const sideList = (
       <View>
         <List className={classes.list} disablePadding>
