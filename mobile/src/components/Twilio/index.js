@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withStyles } from 'material-ui/styles';
+import Dialog, {DialogTitle, DialogContent, DialogActions} from 'material-ui/Dialog';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { withStyles,  } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Dialog, {DialogTitle, DialogContent, DialogActions} from 'material-ui/Dialog';
 import Typography from 'material-ui/Typography';
 
 const styleSheet = theme => ({
@@ -14,8 +14,6 @@ const styleSheet = theme => ({
     flexWrap: 'wrap',
   },
   textField: {
-    // marginLeft: theme.spacing.unit,
-    // marginRight: theme.spacing.unit,
     backgroundColor: "rgba(0,0,0,0.1)",
     borderRadius: 3,
     padding: 2

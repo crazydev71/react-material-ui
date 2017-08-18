@@ -27,8 +27,6 @@ class HistoryTable extends React.Component {
           <TableHead>
             <TableRow>
               <TableCell>Action</TableCell>
-      {/*<TableCell>Action Key</TableCell>
-              <TableCell>Action Data</TableCell>*/}
               <TableCell>Time</TableCell>
             </TableRow>
           </TableHead>
@@ -37,8 +35,6 @@ class HistoryTable extends React.Component {
               return (
                 <TableRow key={n.id}>
                   <TableCell> {n.action} </TableCell>
-      {/*<TableCell> {n.action_key} </TableCell>
-                  <TableCell> {n.action_data} </TableCell>*/}
                   <TableCell> {n.created_at} </TableCell>
                 </TableRow>
               );

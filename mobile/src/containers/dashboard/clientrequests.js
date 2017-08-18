@@ -23,7 +23,6 @@ class UserList extends React.Component {
     return (
 			<Dialog onRequestClose={onRequestClose} {...other}>
         <DialogTitle>Assign {filter} employee</DialogTitle>
-				
         <div>
           <List>
 						<Divider/>

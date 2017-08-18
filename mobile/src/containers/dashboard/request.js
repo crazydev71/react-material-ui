@@ -2,18 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
-import { Text, ScrollView, View, TextInput, Image } from 'react-native';
-import { ToastActionsCreators } from 'react-native-redux-toast';
+import { ToasterActions } from '../../components/Toaster';
 import { addBookingAction } from 'react-pro-booking-calendar';
 
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Radio, { RadioGroup } from 'material-ui/Radio';
+import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
 import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Spinner from 'react-md-spinner';
-import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
 import Slide from 'material-ui/transitions/Slide';
 
@@ -79,11 +78,16 @@ const styleSheet = theme => ({
 	},
 
 	button: {
-		width: "200px",
+		width: 200,
+		marginBottom: 20
 	},
 	dialogContent: {
 		padding: 20,
 		paddingTop: 0
+	},
+	logo: {
+		maxHeight: 70,
+		marginBottom: 70
 	}
 });
 
@@ -126,12 +130,11 @@ class Request extends React.Component {
 			console.log(res.data);
 			this.setState({ loading: false });
 			if (res.ok) {
-				this.props.dispatch(ToastActionsCreators.displayInfo("Mendr will contact you soon. Thanks", 3000));
+				this.props.dispatch(ToasterActions.showToaster("Mendr will contact you soon.", 'success', 3000));
 				this.addBooking(res.data);
+			} else {
+				this.props.dispatch(ToasterActions.showToaster("Whoops, something went wrong!", 'failed', 3000));
 			}
-				
-			else
-				this.props.dispatch(ToastActionsCreators.displayInfo("Whoops, something went wrong!", 3000));
 		});
 	}
 	
@@ -172,36 +175,36 @@ class Request extends React.Component {
 	render () {
 		const classes = this.props.classes;
 		return (
-			<ScrollView>
-				<View style={[{padding: 10}]}> 
-					<Image
-						resizeMode={Image.resizeMode.contain}
-						source={{ uri: Logo }}
-						style={[styles.image, {marginTop: 70}]}
-					/>
-					<Grid container className={classes.grid} direction="column" align="center">
-						<Grid item xs="12" sm="12" >
-							<Button 
-								color="accent" 
-								raised
-								onClick={()=>{this.setState({fASAP: true})}} 
-								className={classes.button}
-							>
-								Find Local RMT ASAP
-							</Button>
-						</Grid>
-						<Grid item xs="12" sm="12" justify="center">
-							<Button
-								color="accent" 
-								raised
-								onClick={()=>{this.setState({fSchedule: true})}} 
-								className={classes.button}
-							>
-								Schedule
-							</Button>
-						</Grid>
+				<div style={{padding: 8}}> 
+					<Grid 
+						container 
+						className={classes.grid} 
+						direction="column" 
+						align="center"
+						justify="center"
+					>
+						<img
+							src={Logo}
+							className={classes.logo}
+						/>
+						<Button 
+							color="accent" 
+							raised
+							onClick={()=>{this.setState({fASAP: true})}} 
+							className={classes.button}
+						>
+							Find Local RMT ASAP
+						</Button>
+						<Button
+							color="accent" 
+							raised
+							onClick={()=>{this.setState({fSchedule: true})}} 
+							className={classes.button}
+						>
+							Schedule
+						</Button>
 					</Grid>
-				</View>
+				
 				<Dialog 
 					fullScreen
 					open={this.state.fSchedule}
@@ -231,7 +234,7 @@ class Request extends React.Component {
 						/>
 					</DialogContent>
 				</Dialog>
-			</ScrollView>
+			</div>
 		);
 	}
 }

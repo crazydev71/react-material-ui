@@ -115,7 +115,10 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => state;
-const dispatchToProps = dispatch => ({dispatch});
+const mapStateToProps = state => ({
+  loader: state.loader,
+  location: state.routing, 
+  user: state.user
+});
 
-export default connect(mapStateToProps, dispatchToProps) (withStyles(styleSheet)(Dashboard));
+export default connect(mapStateToProps, null) (withStyles(styleSheet)(Dashboard));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withStyles,  } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Radio, { RadioGroup } from 'material-ui/Radio';

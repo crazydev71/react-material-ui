@@ -1,27 +1,34 @@
 import React from 'react'
-import {Image, Text, View, ScrollView, TextInput, Button, AsyncStorage} from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withStyles } from 'material-ui/styles';
 import Grid, { GridItems } from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
+import Input from 'material-ui/Input';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
 
 import { ToasterActions } from '../../components/Toaster';
+import { Loader } from '../../components';
 import Logo from '../../assets/images/logo.png';
+
 import {api, json} from '../../api';
-
-
-import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
-import {Loader, Title } from '../../components';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
 
 const styleSheets = theme => ({
   logo: {
-    maxWidth: 300,
-    height: '100%'
+    maxHeight: 70,
+    marginTop: 70,
   },
+  container: {
+    padding: 30
+  },
+  typography: {
+    color: 'gray'
+  },
+  grid: {
+    flexGrow: 1,
+  }
 });
 
 class Login extends React.Component {
@@ -75,75 +82,95 @@ class Login extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      <div className={classes.container}>
         <Grid 
           container
           justify="center"
+          direction="column"
+          align="center"
+          className={classes.grid}
         >
           <img
             src={Logo}
             className={classes.logo}
           />
-          <Typography type='title' className={classes.title}> Massage that Travels </Typography>
-          <View style={{ flex: 1, justifyContent: 'center'}}>
-            <Text style={[
-              { textAlign: 'center', marginTop: 30, },
-              colorStyles['gray'],
-              sizeStyles['normal'],
-              weightStyles['bold']
-            ]}> Travel Areas in the 6ix </Text>
-            <Text style={[
-              { textAlign: 'center' },
-              colorStyles['gray'],
-              sizeStyles['small'],
-              weightStyles['bold']
-            ]}>We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto</Text>
-          </View>
-      
-          { !this.state.loading ? 
-             <View style={styles.fullSupport}>
-               <TextInput
-                 accessibilityLabel='Email'
-                 placeholder={`Your account email`}
-                 value={this.state.email}
-                 onChange={(event) => {this.setState({email: event.target.value})}}      
-                 style={[
-                    {marginTop: 50},
-                    styles.inputField,
-                 ]}
-               />
 
-               <TextInput
-                 secureTextEntry={true}
-                 accessibilityLabel='Password'
-                 placeholder={`Your account password`}
-                 value={this.state.password}
-                 onChange={(event) => {this.setState({password: event.target.value})}}      
-                 onSubmitEditing={() => this.sendRequest()}
-                 style={[
-                   styles.inputField,
-                 ]}
-               /><br/>
+          <Typography 
+            type='title' 
+            className={classes.typography} 
+            align='center'
+          >
+            Massage that Travels
+          </Typography>
 
-               <Button
-                 accessibilityLabel="Login"
-                 color="#2196F3"
-                 onPress={() => this.sendRequest()}
-                 title="Login"
-               /><br/>
-               <Text style={[
-                            { textAlign: 'center' },
-                            colorStyles['gray'],
-                            sizeStyles['small']
-                            ]}>
-                 Don't you have an account? Please <Text style={[colorStyles[`green`],]} onPress={() => this.props.dispatch(push('/register'))}>register here</Text>
-               </Text>
-             </View> : <Loader /> }
+          <Typography
+            type='body1'
+            align='center' 
+            className={classes.typography}
+            style={{marginTop: 20}}
+          > 
+            Travel Areas in the 6ix 
+          </Typography>
+          
+          <Typography 
+            type='caption' 
+            align='center' 
+            className={classes.typography}
+          >
+            We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto
+          </Typography>
+
+          <Grid
+            container
+            justify="center"
+            align="stretch"
+            direction="column"
+            className={classes.grid}
+            style={{marginTop:10}}
+          >
+            <TextField
+              placeholder={`Your account email`}
+              value={this.state.email}
+              onChange={(event) => {this.setState({email: event.target.value})}}
+              label="Email"
+              margin="normal"
+              type="email"
+            />
+
+            <TextField
+              placeholder={`Your account password`}
+              value={this.state.password}
+              onChange={(event) => {this.setState({password: event.target.value})}}
+              label="Password"
+              margin="normal"
+              type="password"
+            /><br/>
+
+            <Button
+              color="primary"
+              onClick={() => this.sendRequest()}
+              raised
+            >
+              Login
+            </Button><br/>
+            <Typography
+              type='body2' 
+              align='center' 
+              className={classes.typography}
+            >
+              Don't you have an account? 
+              <span 
+                style={{color:'green'}}
+                onClick={() => this.props.dispatch(push('/register'))}
+                className={classes.typography}
+              > Register here</span>
+            </Typography>
+          </Grid>
+          { this.state.loading && <Loader /> }
         </Grid>
+      </div>
     );
   }
 }
 
-const mapStateToProps = state => state;
-const dispatchToProps = dispatch => ({dispatch});
-
-export default connect(mapStateToProps, dispatchToProps)(withStyles(styleSheets)(Login));
+export default connect()(withStyles(styleSheets)(Login));
