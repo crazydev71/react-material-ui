@@ -74,9 +74,7 @@ const styleSheet = theme => ({
 		padding	:10
 	},
 	cardActions: {
-		display: 'float',
-		padding: 0,
-		margin:0,
+		height: '9px'
 	},
 	actionButton: {
 		float: 'right',
@@ -279,10 +277,10 @@ class ClientRequests extends React.Component {
 										<Typography type="body2">Comment: {n.comment}</Typography>
 										<Typography type="body2">Requested Time: {n.request_time ? n.request_time : "ASAP"}</Typography>
 									</div>
-								</CardContent>
+								
 								<Divider/>
 								<div className={classes.cardActions}>
-									<Typography className={classes.time}>{n.created_at}</Typography>
+									<span className={classes.time}>{n.created_at}</span>
 									{n.status==='open' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'assigned')}>Accept</Button>}
 									{n.status==='assigned' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'completed')}>Completed</Button>}
 									{/* <Button dense className={classes.actionButton}>Decline</Button> */}
@@ -290,6 +288,7 @@ class ClientRequests extends React.Component {
 								{n.status==='open' && <div className={classes.status}>New !</div>}
 								{n.status==='assigned' && <div className={classes.status} style={{backgroundColor:'#3F51B5'}}>Accepted</div>}
 								{n.status==='completed' && <div className={classes.status} style={{backgroundColor:'#009688'}}>Completed</div>}
+								</CardContent>
 							</Card>
 						</Slide>
 					))

@@ -61,7 +61,6 @@ class Dashboard extends React.Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    console.log(newProps);
     const path = newProps.location.pathname;
     switch (path) {
       case "/dashboard/history":
