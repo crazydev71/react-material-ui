@@ -76,9 +76,10 @@ class UserEdit extends React.Component {
 		.then((res) => {
 			if (res.ok) {
 				this.props.onRequestClose();
+				if (this.props.user.id === res.data.profile.id)
+					this.props.dispatch({type: "SET_USER", payload: res.data.profile});
 			}
 		})
-		
 	}
 
 	render () {
@@ -178,4 +179,4 @@ class UserEdit extends React.Component {
 }
 
 
-export default withStyles(styleSheet)(UserEdit);
+export default connect()(withStyles(styleSheet)(UserEdit));
