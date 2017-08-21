@@ -1,4 +1,5 @@
 import Request from '../models/request';
+import User from '../models/request';
 import {addLog} from './log.controller';
 import hash from 'password-hash';
 import utils from '../utils'
@@ -94,13 +95,16 @@ export const updateRequest = async (req, res) => {
       
       const request = model.toJSON();
 
-      console.log(request);
-      
+      let handler = await User.where('id', request.handler_id).fetch();
+      handler = handler.toJSON();
+
+      console.log(handler);
+
       if (request.status == 'assigned') {
-        const message = `Your request has been accepted by ${user.name} from Mendr.\n You can contact him via phone(${user.phone}) or via email(${user.email})`;
+        const message = `Your request has been accepted by ${handler.name} from Mendr.\n You can contact him via phone(${handler.phone}) or via email(${handler.email})`;
         await utils.sendSMS(request.phone, message);
       } else if (request.status == 'completed') {
-        const message = `Your request has been completed by ${user.name} from Mendr.\n We hope you are satisfied with our service. Thank you.`;
+        const message = `Your request has been completed by ${handler.name} from Mendr.\n We hope you are satisfied with our service. Thank you.`;
         await utils.sendSMS(request.phone, message);
       }
       
