@@ -39,7 +39,7 @@ class History extends React.Component {
 	render () {
 		return (
 			<div style={{padding: 10}}> 
-				<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities [{this.props.user.role}]</Text>
+				<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities</Text>
 				<HistoryTable dataSet={this.state.logs}/>
 			</div>
 		);
