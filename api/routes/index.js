@@ -3,6 +3,7 @@ import express from 'express';
 import * as UserController from '../controllers/user.controller';
 import * as LogController from '../controllers/log.controller';
 import * as RequestController from '../controllers/request.controller';
+import * as CalendarController from '../controllers/calendar.controller';
 
 const router = express.Router();
 
@@ -32,9 +33,16 @@ router.route('/request')
   .put(RequestController.updateRequest);
 
 router.route('/requests')
-  .get(RequestController.getAllRequests);
+  .get(RequestController.getAllRequests)
+  .post(RequestController.getAllBookings);
 
 router.route('/profile')
 	.post(UserController.updateProfile);
+
+router.route('/calendar/freebusy')
+	.post(CalendarController.checkFreeBusy);
+
+router.route('/calendar')
+	.get(CalendarController.getEventsList)
 
 export default router;

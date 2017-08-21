@@ -1,4 +1,5 @@
 import Request from '../models/request';
+import User from '../models/request';
 import {addLog} from './log.controller';
 import hash from 'password-hash';
 import utils from '../utils'
@@ -28,22 +29,28 @@ export const sendRequest = async (req, res) => {
     
     //send sms
     
-    // if (gender == 'female') {
-    //   const smsId = await utils.sendSMS(FEMALE , message);
-    // } else {
-    //   const smsId = await utils.sendSMS(MALE , message);
-    // }
+    if (gender == 'female') {
+      const smsId = await utils.sendSMS(FEMALE , message);
+    } else {
+      const smsId = await utils.sendSMS(MALE , message);
+    }
     
-    console.log(newRequest.toJSON());
-
     addLog(user.id, user.name, "request", "gender", gender);
-    return res.json({ success: true });
+
+    return res.json(newRequest.toJSON());
     
   } catch (err) {
     return res.json({ success: false, error: err });
   }
 };
 
+export const getAllBookings = (req, res) => {
+  Request.where('status', '!=', 'completed').orderBy('created_at', 'DESC').fetchAll().then((data, err) => {
+    if (err)
+      return res.status(405).json({msg: "error"});
+    return res.json(data.toJSON())
+  });
+}
 
 const getRequests = (req, res) => {
   const user = req.user.toJSON();
@@ -66,7 +73,6 @@ const getRequests = (req, res) => {
       });
     });  
   }
-  
 }
 
 export const getAllRequests = async (req, res) => {
@@ -89,13 +95,16 @@ export const updateRequest = async (req, res) => {
       
       const request = model.toJSON();
 
-      console.log(request);
-      
+      let handler = await User.where('id', request.handler_id).fetch();
+      handler = handler.toJSON();
+
+      console.log(handler);
+
       if (request.status == 'assigned') {
-        const message = `Your request has been accepted by ${user.name} from Mendr.\n You can contact him via phone(${user.phone}) or via email(${user.email})`;
+        const message = `Your request has been accepted by ${handler.name} from Mendr.\n You can contact him via phone(${handler.phone}) or via email(${handler.email})`;
         await utils.sendSMS(request.phone, message);
       } else if (request.status == 'completed') {
-        const message = `Your request has been completed by ${user.name} from Mendr.\n We hope you are satisfied with our service. Thank you.`;
+        const message = `Your request has been completed by ${handler.name} from Mendr.\n We hope you are satisfied with our service. Thank you.`;
         await utils.sendSMS(request.phone, message);
       }
       

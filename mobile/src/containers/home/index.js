@@ -1,13 +1,31 @@
 import React from 'react'
-import {Image, Text, View, ScrollView, TextInput, Button, AsyncStorage} from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { withStyles } from 'material-ui/styles';
+import Grid, { GridItems } from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
 
+import { Loader } from '../../components';
 import Logo from '../../assets/images/logo.png';
-import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
-import {Loader, Title } from '../../components';
 
 import {api, json} from '../../api';
+
+const styleSheets = theme => ({
+  logo: {
+    maxHeight: 70,
+    marginTop: 70,
+  },
+  container: {
+    padding: 30
+  },
+  typography: {
+    color: 'gray'
+  },
+  grid: {
+    flexGrow: 1,
+  }
+});
 
 class Home extends React.Component {
 
@@ -25,39 +43,48 @@ class Home extends React.Component {
 	}
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<View>
-				<Image
-					resizeMode={Image.resizeMode.contain}
-					source={{ uri: Logo }}
-					style={styles.image}
-				/>
-				<Title> Massage that Travels </Title>
-				<View style={{ flex: 1, justifyContent: 'center'}}>
-					<Text style={[
-					{ textAlign: 'center', marginTop: 30, },
-					colorStyles['gray'],
-					sizeStyles['normal'],
-					weightStyles['bold']
-					]}> Travel Areas in the 6ix </Text>
-					<Text style={[
-					{ textAlign: 'center' },
-					colorStyles['gray'],
-					sizeStyles['small'],
-					weightStyles['bold']
-					]}>We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto</Text>
-				</View>
-				<Loader/>
-			</View>
+			<div className={classes.container}>
+				<Grid 
+					container
+					justify="center"
+					direction="column"
+					align="center"
+					className={classes.grid}
+				>
+					<img
+            src={Logo}
+            className={classes.logo}
+          />
+					<Typography 
+            type='title' 
+            className={classes.typography} 
+            align='center'
+          >
+            Massage that Travels
+          </Typography>
+					<Typography
+						type='body1'
+						align='center' 
+						className={classes.typography}
+						style={{marginTop: 20}}
+					> 
+						Travel Areas in the 6ix 
+					</Typography>
+					
+					<Typography 
+						type='caption' 
+						align='center' 
+						className={classes.typography}
+					>
+						We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto
+					</Typography>
+					<Loader/>
+				</Grid>
+			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
-  return state;
-}
-
-const dispatchToProps = (dispatch) => ({
-  dispatch
-});
-export default connect(mapStateToProps, dispatchToProps)(Home);
+export default connect()(withStyles(styleSheets)(Home));

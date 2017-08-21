@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
-import { View } from 'react-native';
+import { withStyles,  } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
@@ -16,8 +15,7 @@ import GroupIcon from 'material-ui-icons/Group';
 import PermPhoneMsgIcon from 'material-ui-icons/PermPhoneMsg';
 import PersonIcon from 'material-ui-icons/Person';
 
-
-const styleSheet = createStyleSheet('Sidebar', {
+const styleSheet = theme => ({
   list: {
     width: 250,
     flex: 'initial',
@@ -38,69 +36,62 @@ class SideBar extends Component
     };
   }
   
-  componentWillReceiveProps (props) {
-    this.setState({open: props.open});
-  }
-  
   render() {
     const classes = this.props.classes;
     
     const sideList = (
-      <View>
+      <div>
         <List className={classes.list} disablePadding>
-          { 
-            this.props.user.role=='admin' && 
-            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/users'))}>
-              <ListItemIcon>
-                <GroupIcon />
-              </ListItemIcon>
-              <ListItemText primary="Users" />
-            </ListItem>
-          }
-          { 
-            (this.props.user.role=='admin' || this.props.user.role=='employee') && 
-            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/client-requests'))}>
-              <ListItemIcon>
-                <PermPhoneMsgIcon />
-              </ListItemIcon>
-              <ListItemText primary="Client Requests" />
-            </ListItem>
-            
-          }
-          
-          {
-            this.props.user.role=='client' && 
-            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/request'))}>
-              <ListItemIcon>
-                <ContactMailIcon />
-              </ListItemIcon>
-              <ListItemText primary="Request" />
-            </ListItem>
-          }
+        { 
+          this.props.user.role=='admin' && 
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/users'))}>
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+          </ListItem>
+        }
+        { 
+          (this.props.user.role=='admin' || this.props.user.role=='employee') && 
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/client-requests'))}>
+            <ListItemIcon>
+              <PermPhoneMsgIcon />
+            </ListItemIcon>
+            <ListItemText primary="Client Requests" />
+          </ListItem>
+        }
+        {
+          this.props.user.role=='client' && 
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/request'))}>
+            <ListItemIcon>
+              <ContactMailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Request" />
+          </ListItem>
+        }
           <ListItem button onClick={() => this.props.dispatch(push('/dashboard/transactions'))}>
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
             <ListItemText primary="Transactions" />
           </ListItem>
-          { 
-            (this.props.user.role=='admin' || this.props.user.role=='employee') && 
-            <ListItem button onClick={() => this.props.dispatch(push('/dashboard/profile'))}>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Manage Profile" />
-            </ListItem>
-          }
+        { 
+          (this.props.user.role=='admin' || this.props.user.role=='employee') && 
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/profile'))}>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="Manage Profile" />
+          </ListItem>
+        }
           <ListItem button onClick={() => this.props.dispatch(push('/dashboard/history'))}>
             <ListItemIcon>
               <HistoryIcon />
             </ListItemIcon>
             <ListItemText primary="History" />
           </ListItem>
-          
         </List>
-      
+
         <Divider />
       
         <List className={classes.list} disablePadding>
@@ -111,18 +102,17 @@ class SideBar extends Component
             <ListItemText primary="LogOut" />
           </ListItem>
         </List>
-      </View>
+      </div>
     );
 
     return (
-      <View>
       <Drawer
         open={this.props.open}
         onRequestClose={this.props.handleClose}
-        onClick={this.props.handleClose}>
-          {sideList}
-        </Drawer>
-      </View>
+        onClick={this.props.handleClose}
+      >
+        {sideList}
+      </Drawer>
     );
   }
 }

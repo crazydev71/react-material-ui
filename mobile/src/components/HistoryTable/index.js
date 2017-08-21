@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles,  } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 
-const styleSheet = createStyleSheet('BasicTable', theme => ({
+const styleSheet = theme => ({
   paper: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     maxHeight: '400px'
   },
-}));
+});
 
 class HistoryTable extends React.Component {
   constructor (props) {
@@ -22,13 +22,11 @@ class HistoryTable extends React.Component {
     const classes = this.props.classes;
     const data = this.props.dataSet
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation="10">
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Action</TableCell>
-      {/*<TableCell>Action Key</TableCell>
-              <TableCell>Action Data</TableCell>*/}
               <TableCell>Time</TableCell>
             </TableRow>
           </TableHead>
@@ -37,8 +35,6 @@ class HistoryTable extends React.Component {
               return (
                 <TableRow key={n.id}>
                   <TableCell> {n.action} </TableCell>
-      {/*<TableCell> {n.action_key} </TableCell>
-                  <TableCell> {n.action_data} </TableCell>*/}
                   <TableCell> {n.created_at} </TableCell>
                 </TableRow>
               );

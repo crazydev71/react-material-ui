@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux'
 import PropTypes from 'prop-types';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { View } from 'react-native';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -17,15 +17,19 @@ import SideBar from '../../components/sidebar';
 
 import {api} from '../../api';
 
-const styleSheet = createStyleSheet('ButtonAppBar', {
+const styleSheet = theme => ({
   flex: {
     flex: 1,
   },
   loader: {
     width: '100%',
     position: 'absolute',
-    top: 56,
+    bottom: -5,
     zIndex: '1000',
+  },
+  space: {
+    height: 56,
+    width: '100%'
   }
 });
 
@@ -33,7 +37,8 @@ class Dashboard extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      sideBarOpen: false
+      sideBarOpen: false,
+      title: "Dashboard"
     };
     
     this.handleOpenSideBar = this.handleOpenSideBar.bind(this);
@@ -58,26 +63,52 @@ class Dashboard extends React.Component {
   componentDidMount = () => {
     this.authUser();
   }
+
+  componentWillReceiveProps = (newProps) => {
+    const path = newProps.location.pathname;
+    switch (path) {
+      case "/dashboard/history":
+        this.setState({title: "History"});
+        break;
+      case "/dashboard/request":
+        this.setState({title: "Send Request"});
+        break;
+      case "/dashboard/transactions":
+        this.setState({title: "Transactions"});
+        break;
+      case "/dashboard/users":
+        this.setState({title: "Users"});
+        break;
+      case "/dashboard/profile":
+        this.setState({title: "Manage Profile"});
+        break;
+      case "/dashboard/client-requests":
+        this.setState({title: "Client Requests"});
+        break;
+      default:
+        this.setState({title: "Dashboard"});
+        break;
+    }
+  }
   
   render () {
     const classes = this.props.classes;
     return (
-      <View className={classes.root}>
-        <AppBar position="static">
+      <div className={classes.root}>
+        <AppBar position="fixed">
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Dashboard
+              {this.state.title}
             </Typography>
             <IconButton color="contrast" aria-label="Menu" onClick={()=>this.handleOpenSideBar()}>
               <MenuIcon />
             </IconButton>
           </Toolbar>
+          {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
         </AppBar>
-        
-        {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
-
+        <div className={classes.space}/>
         <SideBar open={this.state.sideBarOpen} handleClose={this.handleCloseSideBar} handleOpen={this.handleOpenSideBar}/>
-      </View>
+      </div>
     );  
   }  
 }
@@ -86,7 +117,10 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => state;
-const dispatchToProps = dispatch => ({dispatch});
+const mapStateToProps = state => ({
+  loader: state.loader,
+  location: state.routing, 
+  user: state.user
+});
 
-export default connect(mapStateToProps, dispatchToProps) (withStyles(styleSheet)(Dashboard));
+export default connect(mapStateToProps, null) (withStyles(styleSheet)(Dashboard));

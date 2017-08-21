@@ -1,25 +1,43 @@
 import React from 'react'
-import {Image, Text, View, ScrollView, TextInput, Button} from 'react-native'
-import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { withStyles } from 'material-ui/styles';
+import Grid, { GridItems } from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
+import Input from 'material-ui/Input';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
+
+import { ToasterActions } from '../../components/Toaster';
+import { Loader } from '../../components';
+import Logo from '../../assets/images/logo.png';
 
 import {api, json} from '../../api';
 
-import Logo from '../../assets/images/logo.png';
-import Spinner from 'react-md-spinner';
-import {styles, colorStyles, sizeStyles, weightStyles} from './style'
-import { Card, Loader, Title } from '../../components';
-
+const styleSheets = theme => ({
+  logo: {
+    maxHeight: 70,
+    marginTop: 70,
+  },
+  container: {
+    padding: 30
+  },
+  typography: {
+    color: 'gray'
+  },
+  grid: {
+    flexGrow: 1,
+  }
+});
 
 class Verification extends React.Component {
   constructor(props) {
     super(props);
-    // this.handleChangeGender = this.handleChangeGender.bind(this);
     this.state = {
       phone: '',
 			smsCode: '',
-      waitingSMS: false,
+      waitingSMS: true,
       loading: false,
     };
 		this.requestSMSCode = this.requestSMSCode.bind(this);
@@ -58,67 +76,103 @@ class Verification extends React.Component {
 	}
 
   render() {
+		const { classes } = this.props;
     return (
-      <ScrollView contentContainerStyle={styles.card}>
-        <View>
-          <Image
-            resizeMode={Image.resizeMode.contain}
-            source={{ uri: Logo }}
-            style={styles.image}
-          />
-          <Title> Massage that Travels </Title>
+      <div className={classes.container}>
+        <Grid 
+          container
+          justify="center"
+          direction="column"
+          align="center"
+          className={classes.grid}
+        >
+					<img
+						src={Logo}
+						className={classes.logo}
+					/>
+          <Typography 
+            type='title' 
+            className={classes.typography} 
+            align='center'
+          >
+            Massage that Travels
+          </Typography>
 			
-					<View style={{margin: 30}}><br/></View>
-			
-          <View>
-						<View style={styles.fullSupport}>
-
-							<View>
-								<Text style={ [{color: '#00a0ff'}, sizeStyles['normal'], weightStyles['bold']] }>Verify Phone</Text>
-								<TextInput accessibilityLabel='Phone' placeholder={`Phone Number ( e.g +14169671111 )`} keyboardType="phone-pad" style={[styles.inputField]} 
-									value={this.state.phone} 
-									onChange={(event) => this.setState( { phone: event.target.value } )}
+          <Grid
+            container
+            justify="center"
+            align="stretch"
+            direction="column"
+            className={classes.grid}
+            style={{marginTop:10}}
+          >
+						<Typography
+							type='subheading'
+							style={{marginTop: 20}}
+							align='center'
+							color='accent'
+						> 
+							Verify with your phone
+						</Typography>
+						<TextField
+							placeholder={`Phone Number ( e.g +14169671111 )`}
+              value={this.state.phone}
+              onChange={(event) => {this.setState({phone: event.target.value})}}
+              label="Phone Number"
+              margin="normal"
+            />
+					
+						{!this.state.waitingSMS &&
+							<Button 
+								color="primary" title="Request SMS Code" 
+								onClick={() => this.requestSMSCode()}
+								raised
+							>
+								Request SMS Code
+							</Button> 
+						}
+						{this.state.waitingSMS && 
+							<Grid
+								container
+								direction='column'
+								align='stretch'
+								justify='center'
+								style={{padding: 8}}
+							>
+								<Typography>
+									Enter the SMS code or press&nbsp;
+									<span
+										onClick={() => this.requestSMSCode()}
+										style={{color:'green'}}
+									>
+										resend
+									</span>
+								</Typography>
+								
+								<TextField 
+									label='SMS Code ( e.g 620142 )'
+									placeholder={`SMS Code ( e.g 620142 )`}
+									value={this.state.smsCode} 
+									onChange={ (event) => this.setState({ smsCode: event.target.value }) }
+									margin='normal'
 								/>
-								<br/>
-							</View>
-
-							{!this.state.waitingSMS ? (
 								<Button 
-									accessibilityLabel="Press Button" 
-									color="#2196F3" title="Request SMS Code" 
-									onPress={() => this.requestSMSCode()}
-								/>) : (
-								<View>
-									<Text style={ [{color: '#00a0ff'}, sizeStyles['normal'], weightStyles['normal']] }>
-										Enter the SMS code or press &nbsp;
-											<Text style={ [{color: '#006eaf'}, weightStyles['bold']]}  onPress={() => this.requestSMSCode()}>
-												resend
-											</Text>
-									</Text>
-											
-									<TextInput accessibilityLabel='Verification Code' placeholder={`SMS Code ( e.g 620142 )`} keyboardType="phone-pad" style={[styles.inputField]}
-										value={this.state.smsCode} 
-										onChange={ (event) => this.setState({ smsCode: event.target.value }) }
-									/>
-									<Button 
-										accessibilityLabel="Press Button" 
-										color="#2196F3" 
-										title="Verify Account" 
-										onPress={() => this.verifySMSCode()}
-									/>
-								</View>)
-							}
-							{this.state.loading && <View style={[{justifyContent: 'center', width: 'auto', marginLeft: 'auto', marginRight: 'auto', marginTop: 50}]}><Spinner size={30}/></View>}
-						</View>
-          </View>
-        </View>
-      </ScrollView>
+									color="primary" 
+									title="Verify Account" 
+									onClick={() => this.verifySMSCode()}
+									raised
+									dense
+								>
+									Verify Account
+								</Button>
+							</Grid>
+						}
+					</Grid>
+					{this.state.loading && <Loader/>}
+				</Grid>
+			</div>
     );
   }
 }
 
-const  dispatchToProps = (dispatch) => ({
-	dispatch
-})
-
-export default connect(null, dispatchToProps)(Verification);
+export default connect()(withStyles(styleSheets)(Verification));

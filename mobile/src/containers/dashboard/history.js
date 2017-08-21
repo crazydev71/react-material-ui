@@ -10,7 +10,7 @@ import { HistoryTable } from '../../components';
 import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
 
 import { api, json } from '../../api';
-// import { withStyles, createStyleSheet } from 'material-ui/styles';
+// import { withStyles } from 'material-ui/styles';
 // import Button from 'material-ui/Button';
 
 class History extends React.Component {
@@ -18,24 +18,14 @@ class History extends React.Component {
 		super(props);
 		this.state = {
 			logs: [],
-			gender: 'male',
-			comment: '',
-			loading: false
 		}
 		this.getLogs = this.getLogs.bind(this);
-		this.handleChangeGender = this.handleChangeGender.bind(this);
 	}
 	
 	getLogs () {
 		api.get('/logs').then((res) => {
 			if (res.ok)
 				this.setState({logs: res.data});
-		});
-	}
-	
-	handleChangeGender(event, value) {
-		this.setState({
-		gender: value
 		});
 	}
 	
@@ -48,26 +38,12 @@ class History extends React.Component {
 
 	render () {
 		return (
-			<ScrollView>
-				<View style={[{padding: 20}]}> 
-					<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities [{this.props.user.role}]</Text>
-					<HistoryTable dataSet={this.state.logs}/>
-					{/* <Button raised color="primary">
-						Primary
-					</Button> */}
-				</View>
-			</ScrollView>
+			<div style={{padding: 10}}> 
+				<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities [{this.props.user.role}]</Text>
+				<HistoryTable dataSet={this.state.logs}/>
+			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		user: state.user
-	}
-}
-
-const dispatchToProps = (dispatch) => ({
-	dispatch,
-})
-export default connect(mapStateToProps, dispatchToProps) (History);
+export default connect() (History);

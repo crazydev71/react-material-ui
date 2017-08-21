@@ -1,10 +1,23 @@
 import React from 'react';
-import Spinner from 'react-md-spinner';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import { CircularProgress } from 'material-ui/Progress';
 
-const Loader = () => (
-<div style={{ marginTop: '200px', width:'auto', marginLeft: 'auto', marginRight: 'auto' }}>
-  <Spinner size={50} />
-</div>
-);
+const styles = theme => ({
+  progress: {
+    margin: theme.spacing.unit
+  },
+});
 
-export default Loader;
+const Loader = (props) => {
+  const classes = props.classes;
+  return (
+    <CircularProgress className={classes.progress} size={50} />
+  );
+}
+
+Loader.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Loader);
