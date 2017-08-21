@@ -164,8 +164,11 @@ class ClientRequests extends React.Component {
 		});
 	}
 
-	updateRequest(index, status) {
+	updateRequest(id, status) {
+		const index = this.state.requests.findIndex((request) => {return request.id==id});
+		console.log(index);
 		if (this.props.user.role == 'admin') {
+
 			this.setState({settingIndex: index, settingStatus: status, isSetting: true, settingGender:this.state.requests[index].gender});
 		} else if (this.props.user.role == 'employee') {
 			api.put('/request', json({
@@ -222,6 +225,7 @@ class ClientRequests extends React.Component {
 				}
 			});
 		
+		console.log("================render======================");
 		return (
 			<div className={classes.container}>
 				<div className={classes.filter}>
@@ -281,8 +285,8 @@ class ClientRequests extends React.Component {
 								<Divider/>
 								<div className={classes.cardActions}>
 									<span className={classes.time}>{n.created_at}</span>
-									{n.status==='open' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'assigned')}>Accept</Button>}
-									{n.status==='assigned' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(index, 'completed')}>Completed</Button>}
+									{n.status==='open' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(n.id, 'assigned')}>Accept</Button>}
+									{n.status==='assigned' && <Button dense color="primary" className={classes.actionButton} onClick={() => this.updateRequest(n.id, 'completed')}>Completed</Button>}
 									{/* <Button dense className={classes.actionButton}>Decline</Button> */}
 								</div>
 								{n.status==='open' && <div className={classes.status}>New !</div>}

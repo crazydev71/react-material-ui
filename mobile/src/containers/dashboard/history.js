@@ -18,24 +18,14 @@ class History extends React.Component {
 		super(props);
 		this.state = {
 			logs: [],
-			gender: 'male',
-			comment: '',
-			loading: false
 		}
 		this.getLogs = this.getLogs.bind(this);
-		this.handleChangeGender = this.handleChangeGender.bind(this);
 	}
 	
 	getLogs () {
 		api.get('/logs').then((res) => {
 			if (res.ok)
 				this.setState({logs: res.data});
-		});
-	}
-	
-	handleChangeGender(event, value) {
-		this.setState({
-		gender: value
 		});
 	}
 	
@@ -56,13 +46,4 @@ class History extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		user: state.user
-	}
-}
-
-const dispatchToProps = (dispatch) => ({
-	dispatch,
-})
-export default connect(mapStateToProps, dispatchToProps) (History);
+export default connect() (History);

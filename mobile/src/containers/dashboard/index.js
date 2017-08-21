@@ -24,8 +24,12 @@ const styleSheet = theme => ({
   loader: {
     width: '100%',
     position: 'absolute',
-    top: 56,
+    bottom: -5,
     zIndex: '1000',
+  },
+  space: {
+    height: 56,
+    width: '100%'
   }
 });
 
@@ -91,7 +95,7 @@ class Dashboard extends React.Component {
     const classes = this.props.classes;
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
               {this.state.title}
@@ -100,10 +104,9 @@ class Dashboard extends React.Component {
               <MenuIcon />
             </IconButton>
           </Toolbar>
+          {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
         </AppBar>
-        
-        {this.props.loader.isLoading && <LinearProgress color="accent" className={classes.loader}></LinearProgress>}
-
+        <div className={classes.space}/>
         <SideBar open={this.state.sideBarOpen} handleClose={this.handleCloseSideBar} handleOpen={this.handleOpenSideBar}/>
       </div>
     );  
