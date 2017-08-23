@@ -3,13 +3,11 @@ import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withStyles } from 'material-ui/styles';
-import Grid, { GridItems } from 'material-ui/Grid';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
-import { ToasterActions } from '../../components/Toaster';
 import { Loader } from '../../components';
 import Logo from '../../assets/images/logo.png';
 

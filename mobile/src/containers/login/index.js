@@ -3,9 +3,8 @@ import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withStyles } from 'material-ui/styles';
-import Grid, { GridItems } from 'material-ui/Grid';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
@@ -64,7 +63,7 @@ class Login extends React.Component {
         AsyncStorage.setItem("token", res.data.user.token);
         this.props.dispatch({type:"SET_USER", payload: res.data.user});
         this.props.dispatch(ToasterActions.showToaster("Login succeeded!", 'success', 3000));
-        if (res.data.user.role == 'client')
+        if (res.data.user.role === 'client')
           this.props.dispatch(push('/dashboard/request'));
         else
           this.props.dispatch(push('/dashboard/client-requests'));

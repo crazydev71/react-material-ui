@@ -2,16 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import Card, { CardHeader, CardContent } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
-import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ModeEditIcon from 'material-ui-icons/ModeEdit';
 
-import { api, json } from '../../api';
+import { api } from '../../api';
 
 import UserEdit from './useredit';
 
@@ -67,9 +65,9 @@ class Users extends React.Component {
 		const classes = this.props.classes;
 		let nAdmins = 0, nClients = 0, nEmployee = 0;
 		this.state.users.forEach((user) => {
-			if (user.role == 'admin') nAdmins++;
-			if (user.role == 'client') nClients++;
-			if (user.role == 'employee') nEmployee++;
+			if (user.role === 'admin') nAdmins++;
+			if (user.role === 'client') nClients++;
+			if (user.role === 'employee') nEmployee++;
 		})
 		return (
 			<div style={{padding: 10}}> 

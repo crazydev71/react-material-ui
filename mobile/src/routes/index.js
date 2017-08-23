@@ -14,6 +14,7 @@ import Transactions from '../containers/dashboard/transactions';
 import History from '../containers/dashboard/history';
 import Profile from '../containers/dashboard/profile';
 import Request from '../containers/dashboard/request';
+import TimeTable from '../containers/dashboard/timetable';
 
 const Routes = (props) => (
   <View>
@@ -29,6 +30,7 @@ const Routes = (props) => (
     <Route path="/dashboard/users" component={Users}></Route>
     <Route path="/dashboard/client-requests" component={ClientRequests}></Route>
     <Route path="/dashboard/profile" component={Profile}></Route>
+    <Route path="/dashboard/timetable" component={TimeTable}></Route>
   </View>
 );
 

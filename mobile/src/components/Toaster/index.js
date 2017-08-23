@@ -2,10 +2,32 @@ import React, { Component } from 'react';
 import { connect } from  'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
+
+// action for showing toaster
+const showToaster = (message, status, duration) => ({
+  type: 'TOASTER_SHOW',
+  payload: {
+    open: true,
+    message: message,
+    status: status ? status : 'success',
+    duration: duration ? duration : 3000
+  }
+});
+
+const hideToaster = () => ({
+  type: 'TOASTER_HIDE',
+  payload: {
+    open: false
+  }
+})
+
+export const ToasterActions = {
+  showToaster: showToaster,
+  hideToaster: hideToaster
+}
 
 const styleSheet = theme => ({
   close: {
@@ -14,17 +36,14 @@ const styleSheet = theme => ({
   },
   success: {
     background: '#00C853',
-    // opacity: 0.7
     fontSize: 15
   },
   warning: {
     background: '#EF6C00',
-    // opacity: 0.7
     fontSize: 15
   },
   failed: {
     background: '#E53935',
-    // opacity: 0.7
     fontSize: 15
   },
   message: {
@@ -92,25 +111,3 @@ const mapStateToProps = (state) => (state.toaster);
 
 export default connect(mapStateToProps)(withStyles(styleSheet)(Toaster));
 
-// action for showing toaster
-const showToaster = (message, status, duration) => ({
-  type: 'TOASTER_SHOW',
-  payload: {
-    open: true,
-    message: message,
-    status: status ? status : 'success',
-    duration: duration ? duration : 3000
-  }
-});
-
-const hideToaster = () => ({
-  type: 'TOASTER_HIDE',
-  payload: {
-    open: false
-  }
-})
-
-export const ToasterActions = {
-  showToaster: showToaster,
-  hideToaster: hideToaster
-}

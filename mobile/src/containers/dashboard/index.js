@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { View } from 'react-native';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { LinearProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 

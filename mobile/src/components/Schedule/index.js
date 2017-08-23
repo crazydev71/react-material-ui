@@ -4,18 +4,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import CloseIcon from 'material-ui-icons/Close';
 
-import { Calendar, addBookingAction } from 'react-pro-booking-calendar';
+import { Calendar, addBookingAction } from '../Calendar';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-pro-booking-calendar/dist/react-pro-booking-calendar.css';
-
-import TwilioForm from '../Twilio';
 
 const timeSlot = 60;
 
@@ -71,21 +63,13 @@ class Booking extends React.Component {
     console.log(props.booking);
   }
 
-  handleSubmit(data) {
-    const { dispatch } = this.props;
-    const bookingData = {
-      ...this.state,
-      ...data,
-    };
-    console.log(bookingData);
-    dispatch(addBookingAction(bookingData));
-    this.props.onSubmit(bookingData);
-    this.props.onClose();
+  componentDidMount () {
+    this.props.dispatch(addBookingAction(this.state))
   }
 
   render() {
     return (
-      <TwilioForm onSubmit={this.handleSubmit.bind(this)} onCancel={() => this.props.onClose()}/>
+      <div></div>
     );
   }
 }
@@ -93,50 +77,19 @@ class Booking extends React.Component {
 Booking = connect()(Booking);
 
 const styleSheet = theme => ({
-  appBar: {
-    position: 'relative',
-  },
-  flex: {
-    flex: 1,
-  },
-  container: {
-    margin: "0px",
-    overflow: "scroll",
-    minHeight: "100%"
-  }
 });
 
 class Schedule extends React.Component {
   render() {
-    const { classes, onRequestClose, onSubmit } = this.props;
     return (
-      <div className={classes.container}>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Typography 
-              type="title" 
-              color="inherit" 
-              className={classes.flex}
-            >
-              Schedule
-            </Typography>
-            <IconButton 
-              color="contrast" 
-              onClick={onRequestClose} 
-              aria-label="Close"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Calendar bookings={this.props.bookings}
-          timeSlot={timeSlot}
-          timeExceptions={timeExceptions}
-          canViewBooking={false}
-        >
-          <Booking onSubmit={onSubmit}/>
-        </Calendar>
-      </div>
+      <Calendar bookings={this.props.bookings}
+        timeSlot={timeSlot}
+        timeExceptions={timeExceptions}
+        canViewBooking={false}
+        displayPast={true}
+        onDayClick={(booking)=>console.log(booking)}
+      >
+      </Calendar>
     );
   }
 }

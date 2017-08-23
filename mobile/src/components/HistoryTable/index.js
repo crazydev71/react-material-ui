@@ -9,7 +9,6 @@ const styleSheet = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-    maxHeight: '400px'
   },
 });
 
@@ -22,7 +21,7 @@ class HistoryTable extends React.Component {
     const classes = this.props.classes;
     const data = this.props.dataSet
     return (
-      <Paper className={classes.paper} elevation="10">
+      <Paper className={classes.paper} elevation={10} >
         <Table>
           <TableHead>
             <TableRow>

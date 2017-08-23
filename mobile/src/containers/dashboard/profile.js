@@ -71,7 +71,6 @@ class Profile extends React.Component {
 		.then((res) => {
 			if (res.ok) {
 				const { profile } = res.data;
-				console.log (profile);
 				if (profile.id == this.props.user.id) 
 					this.props.dispatch({type: 'SET_USER', payload: profile});
 			}

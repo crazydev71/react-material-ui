@@ -63,9 +63,7 @@ class UserEdit extends React.Component {
 	}
 	
 	componentDidMount() {
-		console.log("-------------------mount---------------------------");
 		this.setState({profile: this.props.user});
-		console.log(this.props.user);
 	}
 
 	componentWillReceiveProps() {

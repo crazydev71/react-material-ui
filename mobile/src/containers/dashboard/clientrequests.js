@@ -2,17 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 import Dialog, { DialogTitle, DialogActions } from 'material-ui/Dialog';
-import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
-import Paper from 'material-ui/Paper';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
-import moment from 'moment';
 import Menu, { MenuItem } from 'material-ui/Menu';	
 
 import { api, json } from '../../api';
@@ -27,7 +24,7 @@ class UserList extends React.Component {
           <List>
 						<Divider/>
             {this.props.users.map(user =>
-              (user.role=='employee' && user.gender==filter) && (
+              (user.role==='employee' && user.gender===filter) && (
 								<div key={user.id}>
 									<ListItem button onClick={() => {onRequestClose(); onSetUser(user)}}>
 										{user.gender==='male' && <Avatar style={{background:"#673AB7", color:"white", float:'left', marginRight: 10}}>M</Avatar>}
@@ -167,10 +164,10 @@ class ClientRequests extends React.Component {
 	updateRequest(id, status) {
 		const index = this.state.requests.findIndex((request) => {return request.id==id});
 		console.log(index);
-		if (this.props.user.role == 'admin') {
+		if (this.props.user.role === 'admin') {
 
 			this.setState({settingIndex: index, settingStatus: status, isSetting: true, settingGender:this.state.requests[index].gender});
-		} else if (this.props.user.role == 'employee') {
+		} else if (this.props.user.role === 'employee') {
 			api.put('/request', json({
 				request_id: this.state.requests[index].id,
 				status: status
@@ -196,15 +193,15 @@ class ClientRequests extends React.Component {
 		const classes = this.props.classes;
 		const filters = this.state.filters;
 		let filteredRequests = this.state.requests;
-		if (filters.status != '')
+		if (filters.status !== '')
 			filteredRequests = filteredRequests.filter( request => request.status==this.state.filters.status );
-		if (filters.createdTime != '')
+		if (filters.createdTime !== '')
 			filteredRequests = filteredRequests.sort((a,b)=>{ 
-				if (this.state.filters.createdTime == 'ASC') {
+				if (this.state.filters.createdTime === 'ASC') {
 					if (!a.created_at) return false;
 					if (!b.created_at) return true;
 					return a.created_at >= b.created_at;
-				} else if (this.state.filters.requestTime == 'DESC') {
+				} else if (this.state.filters.requestTime === 'DESC') {
 					if (!a.created_at) return true;
 					if (!b.created_at) return false;
 					return a.created_at < b.created_at;
@@ -212,13 +209,13 @@ class ClientRequests extends React.Component {
 				return false;
 			});
 
-		if (filters.requestTime != '')
+		if (filters.requestTime !== '')
 			filteredRequests = filteredRequests.sort((a,b)=>{ 
-				if (this.state.filters.requestTime == 'ASC') {
+				if (this.state.filters.requestTime === 'ASC') {
 					if (!a.request_time) return false;
 					if (!b.request_time) return true;
 					return a.request_time >= b.request_time;
-				} else if (this.state.filters.requestTime == 'DESC') {
+				} else if (this.state.filters.requestTime === 'DESC') {
 					if (!a.request_time) return true;
 					if (!b.request_time) return false;
 					return a.request_time < b.request_time;
@@ -230,10 +227,10 @@ class ClientRequests extends React.Component {
 			<div className={classes.container}>
 				<div className={classes.filter}>
 					<Button color="accent" onClick={this.handleClick} className={classes.filterButton}>
-						{filters.status == '' && 'All'}
-						{filters.status == 'open' && 'New'}
-						{filters.status == 'assigned' && 'Accepted'}
-						{filters.status == 'completed' && 'Completed'}
+						{filters.status === '' && 'All'}
+						{filters.status === 'open' && 'New'}
+						{filters.status === 'assigned' && 'Accepted'}
+						{filters.status === 'completed' && 'Completed'}
 					</Button><br/>
 					<Menu
 						id="simple-menu"
@@ -251,14 +248,14 @@ class ClientRequests extends React.Component {
 						color="primary" 
 						onClick={()=>this.setState({filters: {...filters, requestTime: filters.requestTime == 'ASC' ? 'DESC' : 'ASC', createdTime: ''}})}
 					>
-						Time Requested {filters.requestTime == 'ASC' ? String.fromCharCode( "8593" ) : (filters.requestTime == 'DESC' ? String.fromCharCode( "8595" ) : '')}
+						Time Requested {filters.requestTime === 'ASC' ? String.fromCharCode( "8593" ) : (filters.requestTime === 'DESC' ? String.fromCharCode( "8595" ) : '')}
 					</Button>
 					<Button 
 						className={classes.filterButton}
 						color="primary" 
 						onClick={()=>this.setState({filters: {...filters, createdTime: filters.createdTime == 'ASC' ? 'DESC' : 'ASC', requestTime: ''}})}
 					>
-						Time Created {filters.createdTime == 'ASC' ? String.fromCharCode( "8593" ) : (filters.createdTime == 'DESC' ? String.fromCharCode( "8595" ) : '')}
+						Time Created {filters.createdTime === 'ASC' ? String.fromCharCode( "8593" ) : (filters.createdTime === 'DESC' ? String.fromCharCode( "8595" ) : '')}
 					</Button>
 					<Button 
 						className={classes.filterButton}

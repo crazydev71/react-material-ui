@@ -1,17 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView } from 'react-native';
-import { ToastActionsCreators } from 'react-native-redux-toast';
+import { withStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
 
-import Spinner from 'react-md-spinner';
-import Logo from '../../assets/images/logo.png';
-import { Card } from '../../components';
 import { HistoryTable } from '../../components';
-import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
-
 import { api, json } from '../../api';
-// import { withStyles } from 'material-ui/styles';
-// import Button from 'material-ui/Button';
+
 
 class History extends React.Component {
 	constructor (props) {
@@ -33,13 +27,10 @@ class History extends React.Component {
 		this.getLogs();
 	}
 
-	componentWillReceiveProps (newProps) {
-	}
-
 	render () {
 		return (
 			<div style={{padding: 10}}> 
-				<Text style={[sizeStyles['medium'], colorStyles['gray'], weightStyles['bold']]}>User Activities</Text>
+				<Typography type="headline">History Table</Typography>
 				<HistoryTable dataSet={this.state.logs}/>
 			</div>
 		);

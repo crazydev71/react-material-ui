@@ -1,15 +1,14 @@
 import React from 'react'
-import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withStyles } from 'material-ui/styles';
-import Grid, { GridItems } from 'material-ui/Grid';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
 import { Loader } from '../../components';
 import Logo from '../../assets/images/logo.png';
 
-import {api, json} from '../../api';
+import { api } from '../../api';
 
 const styleSheets = theme => ({
   logo: {

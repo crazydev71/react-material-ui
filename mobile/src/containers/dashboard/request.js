@@ -16,45 +16,14 @@ import Spinner from 'react-md-spinner';
 import Paper from 'material-ui/Paper';
 import Slide from 'material-ui/transitions/Slide';
 
-
-// import MaterialDateTimePicker from 'material-datetime-picker/dist/material-datetime-picker.js';
-// import 'material-datetime-picker/dist/material-datetime-picker.css';
-// import '../../assets/styles/datetimepicker.css';
-
-import Logo from '../../assets/images/logo.png';
-import { Card } from '../../components';
-import { styles, colorStyles, sizeStyles, weightStyles } from '../../theme/style'
-import Checkbox from 'material-ui/Checkbox';
-import { api, json } from '../../api';
-import moment from 'moment';
-
 import Schedule from '../../components/Schedule';
 import TwilioForm from '../../components/Twilio';
 
+import Logo from '../../assets/images/logo.png';
+import { api, json } from '../../api';
+import moment from 'moment';
 
 
-// class DateTimePicker extends React.Component {
-// 	componentDidMount() {
-// 		this.picker = new MaterialDateTimePicker()
-// 			.on('submit', this.props.onSubmit)
-// 			.on('open', this.props.onOpen)
-// 			.on('close', this.props.onClose);
-
-// 		if (this.props.open == true)
-//     	this.picker.open({default: Date.now()});
-// 	}
-//   render() {
-//     return (
-//       <div></div>
-//     )
-//   }
-// }
-
-// DateTimePicker.propType = {
-//     onOpen: PropTypes.func,
-//     onSubmit: PropTypes.func,
-//     onClose: PropTypes.func
-// }
 
 const formatTime = (time, timeSlot) => {
 	let min = time.minutes();

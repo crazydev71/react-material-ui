@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter, push } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import {configureStore, history} from './configureStore';
-import {api, json, setStore} from './api';
+import { configureStore, history } from './configureStore';
+
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
 import { blue, pink, red } from 'material-ui/colors';
+
+import { api, setStore } from './api';
 import Toaster from './components/Toaster';
 import sagas from './sagas';
 import Routes from './routes';
@@ -30,10 +32,6 @@ const theme = createMuiTheme({
 
 class App extends Component {
 
-	constructor(props) {
-		super(props);
-	}
-	
 	componentDidMount = async () => {
 		api.post('/auth').then((res) => {
 			if (!res.ok) {
