@@ -186,8 +186,8 @@ class Request extends React.Component {
 							<Tabs
 								value={this.state.value}
 								onChange={this.handleChange}
-								indicatorColor="primary"
-								textColor="primary"
+								indicatorColor="accent"
+								textColor="accent"
 								fullWidth
 							>
 								<Tab label="Male" icon={<TagFacesIcon/>}/>
@@ -199,7 +199,7 @@ class Request extends React.Component {
 								<Available userId={3} availables={this.state.availables} onClick={this.onClickAvailable.bind(this)}/>
 							</TabContainer>
 							<TabContainer>
-								<Available userId={3} availables={this.state.availables} onClick={this.onClickAvailable.bind(this)}/>
+								<Available userId={5} availables={this.state.availables} onClick={this.onClickAvailable.bind(this)}/>
 							</TabContainer>
 						</SwipeableViews>
 					</Paper>
