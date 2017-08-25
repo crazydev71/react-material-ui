@@ -11,7 +11,6 @@ import 'react-pro-booking-calendar/dist/react-pro-booking-calendar.css';
 
 const timeSlot = 60;
 
-// Simulate exinsting booking in paris
 const localDatTime = moment();
 
 function getTime(hour, minute) {
@@ -44,50 +43,20 @@ const timeExceptions = [
     }
 ];
 
-const bookings = [
-  {
-    startDate: localDatTime.clone().seconds(0).milliseconds(0).hours(10).minutes(0),
-    endDate: localDatTime.clone().seconds(0).milliseconds(0).hours(10).minutes(60)
-  },
-  {
-    startDate: localDatTime.clone().seconds(0).milliseconds(0).hours(12).minutes(0),
-    endDate: localDatTime.clone().seconds(0).milliseconds(0).hours(13).minutes(60)
-  }
-];
-
-class Booking extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = props.booking;
-    console.log(props.booking);
-  }
-
-  componentDidMount () {
-    this.props.dispatch(addBookingAction(this.state))
-  }
-
-  render() {
-    return (
-      <div></div>
-    );
-  }
-}
-
-Booking = connect()(Booking);
-
 const styleSheet = theme => ({
+  
 });
 
 class Schedule extends React.Component {
+
   render() {
     return (
       <Calendar bookings={this.props.bookings}
         timeSlot={timeSlot}
         timeExceptions={timeExceptions}
-        canViewBooking={false}
+        canViewBooking={true}
         displayPast={true}
-        onDayClick={(booking)=>console.log(booking)}
+        onDayClick={this.props.onDayClick}
       >
       </Calendar>
     );

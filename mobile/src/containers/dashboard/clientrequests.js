@@ -222,7 +222,6 @@ class ClientRequests extends React.Component {
 				}
 			});
 		
-		console.log("================render======================");
 		return (
 			<div className={classes.container}>
 				<div className={classes.filter}>

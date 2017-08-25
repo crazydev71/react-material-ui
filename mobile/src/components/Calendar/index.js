@@ -1,7 +1,8 @@
 import Calendar from './Calendar';
-import { addBookingAction } from './src/actions/bookingActions';
+import { addBookingAction, deleteBookingAction } from './src/actions/bookingActions';
 
 module.exports = {
     Calendar,
-    addBookingAction
+    addBookingAction,
+    deleteBookingAction
 };

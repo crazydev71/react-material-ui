@@ -1,6 +1,7 @@
 import {
   ADD_BOOKING,
-  INIT_BOOKINGS
+  DELETE_BOOKING,
+  INIT_BOOKINGS,
 } from '../actions/bookingActions';
 
 const INITIAL_STATE = {
@@ -13,6 +14,11 @@ export default function bookingReducer(state = INITIAL_STATE, action) {
       return Object.assign({}, state, { bookings: action.data });
     case ADD_BOOKING:
       return Object.assign({}, state, { bookings: [...state.bookings, action.data] });
+    case DELETE_BOOKING:
+      const bookings = state.bookings.slice();
+      const index = bookings.findIndex((ele) => {return ele.id===action.data.id});
+      bookings.splice(index, 1);
+      return Object.assign({}, state, { bookings: bookings});
     default:
       return state;
   }

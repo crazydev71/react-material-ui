@@ -56,7 +56,6 @@ let mapDispatchToProps = (dispatch, ownProps) => {
 class CalendarContainer extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             showModal: false,
             booking: {}

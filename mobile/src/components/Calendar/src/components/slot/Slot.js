@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 export default class Slot extends React.Component {
   isClickable() {
-      return !this.props.isBooked || this.props.canViewBooking;
+    return !this.props.isBooked || this.props.canViewBooking;
   }
 
   handleClick(e) {
@@ -19,8 +19,8 @@ export default class Slot extends React.Component {
 
   renderBookingLink() {
     return this.props.isBooked
-    ? <span>Booked</span>
-    : <span>Book</span>;
+    ? <span>Available</span>
+    : <span>Not Available</span>;
   }
 
   renderEmptySlot() {
@@ -32,7 +32,7 @@ export default class Slot extends React.Component {
 
   renderSlot() {
     const isBookedModifier = bem('slot', [this.props.isBooked ? 'booked' : 'free']);
-    const isClickableModifier = bem('slot', [this.isClickable() ? 'clickable' : '']);
+    const isClickableModifier = bem('slot', [this.isClickable() ? 'clickable' : 'clickable']);
     return (
       <div className={isBookedModifier + ' ' + isClickableModifier}
           style={this.props.style}

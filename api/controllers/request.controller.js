@@ -1,5 +1,7 @@
 import Request from '../models/request';
-import User from '../models/request';
+import User from '../models/user';
+import Booking from '../models/booking';
+
 import {addLog} from './log.controller';
 import hash from 'password-hash';
 import utils from '../utils'
@@ -8,13 +10,16 @@ const { MALE, FEMALE } = process.env;
 
 export const sendRequest = async (req, res) => {
   const user = req.user.toJSON();
-  let { comment, gender, request_time } = req.body;
-  // request_time = Date.parse(request_time)
-  // console.log(request_time);
-  const message = `From: ${user.name} @ ${user.phone}, requested gender: ${gender}, notes: ${comment}`;
+  let { comment, gender, request_time, booking_id, handler_id } = req.body;
 
+  console.log({ comment, gender, request_time, booking_id, handler_id });
+  
+  const message = `From: ${user.name} @ ${user.phone}, requested gender: ${gender}, notes: ${comment}`;
   try {
     // save in db
+    const handler = await User.where({id: handler_id}).fetch();
+    const booking = await Booking.where({id: booking_id}).fetch();
+    
     const newRequest =  new Request({ 
       user_id: user.id, 
       name: user.name, 
@@ -22,10 +27,14 @@ export const sendRequest = async (req, res) => {
       comment: comment, 
       gender: gender,
       request_time: request_time,
-      status: 'open',
+      handler_id: handler_id,
+      handler_name: handler.toJSON().name,
+      status: 'assigned',
     });
 
-    await newRequest.save(); 
+    await newRequest.save();
+
+    await booking.save({status: 'booked', request_id: newRequest.toJSON().id});
     
     //send sms
     
@@ -37,10 +46,11 @@ export const sendRequest = async (req, res) => {
     
     addLog(user.id, user.name, "request", "gender", gender);
 
-    return res.json(newRequest.toJSON());
+    return res.json(booking.toJSON());
     
   } catch (err) {
-    return res.json({ success: false, error: err });
+    console.log(err);
+    return res.status(405).json(err);
   }
 };
 

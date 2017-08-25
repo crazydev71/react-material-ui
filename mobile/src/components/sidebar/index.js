@@ -14,6 +14,7 @@ import AttachMoneyIcon from 'material-ui-icons/AttachMoney';
 import GroupIcon from 'material-ui-icons/Group';
 import PermPhoneMsgIcon from 'material-ui-icons/PermPhoneMsg';
 import PersonIcon from 'material-ui-icons/Person';
+import DateRangeIcon from 'material-ui-icons/DateRange';
 
 const styleSheet = theme => ({
   list: {
@@ -75,6 +76,17 @@ class SideBar extends Component
             </ListItemIcon>
             <ListItemText primary="Transactions" />
           </ListItem>
+
+        { 
+          (this.props.user.role=='employee') && 
+          <ListItem button onClick={() => this.props.dispatch(push('/dashboard/timetable'))}>
+            <ListItemIcon>
+              <DateRangeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Time Table" />
+          </ListItem>
+        }
+
         { 
           (this.props.user.role=='admin' || this.props.user.role=='employee') && 
           <ListItem button onClick={() => this.props.dispatch(push('/dashboard/profile'))}>

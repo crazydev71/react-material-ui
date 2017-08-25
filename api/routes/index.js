@@ -4,6 +4,7 @@ import * as UserController from '../controllers/user.controller';
 import * as LogController from '../controllers/log.controller';
 import * as RequestController from '../controllers/request.controller';
 import * as CalendarController from '../controllers/calendar.controller';
+import * as BookingController from '../controllers/booking.controller';
 
 const router = express.Router();
 
@@ -43,6 +44,18 @@ router.route('/calendar/freebusy')
 	.post(CalendarController.checkFreeBusy);
 
 router.route('/calendar')
-	.get(CalendarController.getEventsList)
+	.get(CalendarController.getEventsList);
+
+router.route('/booking')
+	.get(BookingController.getAll);
+
+router.route('/booking/available')
+	.get(BookingController.getAvailable)
+	.post(BookingController.addAvailable)
+	.delete(BookingController.deleteAvailable);
+
+router.route('/booking/booking')
+	.get(BookingController.getBooked)
+	.post(BookingController.setBooked);
 
 export default router;

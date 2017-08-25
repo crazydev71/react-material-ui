@@ -3,18 +3,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { ToasterActions } from '../../components/Toaster';
-import { addBookingAction } from 'react-pro-booking-calendar';
 
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import Radio, { RadioGroup } from 'material-ui/Radio';
-import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
-import { FormLabel, FormControl, FormControlLabel, FormGroup } from 'material-ui/Form';
+import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Spinner from 'react-md-spinner';
-import Paper from 'material-ui/Paper';
 import Slide from 'material-ui/transitions/Slide';
+import Paper from 'material-ui/Paper';
+import SwipeableViews from 'react-swipeable-views';
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import FaceIcon from 'material-ui-icons/Face';
+import TagFacesIcon from 'material-ui-icons/TagFaces';
+import Typography from 'material-ui/Typography';
+import Card from 'material-ui/Card';
 
 import Schedule from '../../components/Schedule';
 import TwilioForm from '../../components/Twilio';
@@ -23,13 +26,53 @@ import Logo from '../../assets/images/logo.png';
 import { api, json } from '../../api';
 import moment from 'moment';
 
-
-
 const formatTime = (time, timeSlot) => {
 	let min = time.minutes();
 	min = Math.floor(min / timeSlot) * timeSlot;
 	time.set('minute', min).set('second', 0).set('millisecond', 0);
 	return time;
+}
+
+class Available extends React.Component {
+	render () {
+		const {availables, userId, onClick} = this.props;
+		const filtered = availables.filter((data) => {return (data.user_id===userId && data.status==='available' && moment().format()<moment(data.start).format())});
+		return (
+			<Grid 
+				container
+				direction="column" 
+				align="stretch"
+				justify="center"
+				style={{padding: "5px 0px"}}
+			>
+			{
+				filtered.map((available) => {
+					const date = moment(available.start).format("MMM Do, dddd");
+					const startTime = moment(available.start).format("h:mm A");
+					const endTime = moment(available.end).format("h:mm A");
+					return (
+						<Button 
+							key={available.id} 
+							onClick={() => onClick(available)} 
+							style={{padding: 10, margin:5, textTransform:'none'}} 
+							raised
+						>
+							{date}&nbsp;&nbsp;&nbsp;{startTime} ~ {endTime}
+						</Button>	
+					)
+				})
+			}
+			</Grid>
+		);
+	}
+}
+
+function TabContainer(props) {
+  return (
+    <div style={{ padding: 10, minHeight: 350 }}>
+      {props.children}
+    </div>
+  );
 }
 
 const styleSheet = theme => ({
@@ -43,7 +86,7 @@ const styleSheet = theme => ({
 		margin: 20
 	},
 	grid: {
-		marginTop: 100
+		marginTop: 20
 	},
 
 	button: {
@@ -51,12 +94,11 @@ const styleSheet = theme => ({
 		marginBottom: 20
 	},
 	dialogContent: {
-		padding: 20,
-		paddingTop: 0
+		width: 300
 	},
 	logo: {
 		maxHeight: 70,
-		marginBottom: 70
+		marginBottom: 20
 	}
 });
 
@@ -64,145 +106,133 @@ class Request extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			logs: [],
+			availables: [],
+			value: 0,
+			fOpen: false,
+
 			gender: 'male',
 			comment: '',
-			loading: false,
-			fReserveTime: false,
-			fOpen: false,
-			time: moment(),
-			fSchedule: false,
-			fASAP: false,
-			bookings: []
+			booking: {}
 		}
 		this.sendRequest = this.sendRequest.bind(this);
-		this.handleChangeGender = this.handleChangeGender.bind(this);
-		this.onSetTime = this.onSetTime.bind(this);
-		this.addBooking = this.addBooking.bind(this);
 	}
 	
-	handleChangeGender(event, value) {
-    this.setState({
-      gender: value
-    });
-  }
 	
-	sendRequest(data) {
-    this.setState({ loading: true });
+	handleChange = (event, value) => {
+    this.setState({
+			value,
+			gender: (value === 0 ? 'male' : 'female')
+		});
+  };
+
+  handleChangeIndex = index => {
+		this.setState({
+			value: index,
+			gender: (index === 0 ? 'male' : 'female' )
+		});
+  };
+	
+	sendRequest() {
 		const postData = {
-			gender: data.gender,
-			comment: data.comment,
-			request_time: this.state.fSchedule ? data.startDate.format() : null
+			gender: this.state.gender,
+			comment: this.state.comment,
+			request_time: this.state.booking.start,
+			booking_id: this.state.booking.id,
+			handler_id: this.state.booking.user_id
 		};
 		
 		api.post('/request', json(postData)).then((res) => {
 			console.log(res.data);
-			this.setState({ loading: false });
 			if (res.ok) {
 				this.props.dispatch(ToasterActions.showToaster("Mendr will contact you soon.", 'success', 3000));
-				this.addBooking(res.data);
+
+				const booking = res.data;
+				const availables = this.state.availables.slice();
+				const index = availables.findIndex((ele) => {return ele.id===booking.id});
+				if (index > 0) {
+					availables.splice(index, 1);
+					this.setState({availables: availables});
+				}
+					
+				
 			} else {
 				this.props.dispatch(ToasterActions.showToaster("Whoops, something went wrong!", 'failed', 3000));
 			}
 		});
-	}
-	
-	onSetTime (value) {
-		this.setState({time: value});
-		api.post('/calendar/freebusy', json({time: this.state.time.format()}))
-		.then((res) => {
-			console.log(res);
-		})
+
+		this.setState({fOpen: false});
 	}
 	
 	componentDidMount() {
-		api.post('/requests')
+		api.get('/booking/available')
 		.then ((res) => {
 			if (!res.ok)
 				return;
-
-			const result = res.data
-			
-			result.forEach((booking) => {
-				this.addBooking(booking);
-			})
+			this.setState({availables: res.data});
 		})
 	}
 
-	addBooking = (booking) => {
-		let startDate, endDate;
-		if (booking.request_time)
-				startDate = new moment(booking.request_time);
-			else
-				startDate = new moment(booking.created_at);
-
-			formatTime(startDate, 60);
-			endDate = startDate.clone().add(60, 'minute');
-			this.state.bookings = [...this.state.bookings, {startDate, endDate}];
+	onClickAvailable = (data) => {
+		this.setState({booking: data, fOpen: true, comment: ''});
 	}
 
 	render () {
 		const classes = this.props.classes;
 		return (
-				<div style={{padding: 8}}> 
-					<Grid 
-						container 
-						className={classes.grid} 
-						direction="column" 
-						align="center"
-						justify="center"
+				<div style={{padding: 8}}>
+					<Typography type="title" align="center" style={{margin:"20px 0px"}}>Mendr Booking Form</Typography>
+					<Paper>
+						<AppBar position="static" color="default">
+							<Tabs
+								value={this.state.value}
+								onChange={this.handleChange}
+								indicatorColor="primary"
+								textColor="primary"
+								fullWidth
+							>
+								<Tab label="Male" icon={<TagFacesIcon/>}/>
+								<Tab label="Female" icon={<FaceIcon/>}/>
+							</Tabs>
+						</AppBar>
+						<SwipeableViews index={this.state.value} onChangeIndex={this.handleChangeIndex}>
+							<TabContainer>
+								<Available userId={3} availables={this.state.availables} onClick={this.onClickAvailable.bind(this)}/>
+							</TabContainer>
+							<TabContainer>
+								<Available userId={3} availables={this.state.availables} onClick={this.onClickAvailable.bind(this)}/>
+							</TabContainer>
+						</SwipeableViews>
+					</Paper>
+
+					<Dialog 
+						open={this.state.fOpen}
+						onRequestClose={() => this.setState({fOpen: false})}
+						transition={<Slide direction="down"/>}
+						className={classes.dialog}
+						classes={{paper: classes.paper}}
 					>
-						<img
-							src={Logo}
-							className={classes.logo}
-						/>
-						<Button 
-							color="accent" 
-							raised
-							onClick={()=>{this.setState({fASAP: true})}} 
-							className={classes.button}
-						>
-							Find Local RMT ASAP
-						</Button>
-						<Button
-							color="accent" 
-							raised
-							onClick={()=>{this.setState({fSchedule: true})}} 
-							className={classes.button}
-						>
-							Schedule
-						</Button>
-					</Grid>
-				
-				<Dialog 
-					fullScreen
-					open={this.state.fSchedule}
-					onRequestClose={()=> this.setState({ fSchedule: false })}
-					transition={<Slide direction="up"/>}
-				>
-					<Schedule 
-						onRequestClose={()=> this.setState({ fSchedule: false })} 
-						onSubmit={this.sendRequest}
-						bookings={this.state.bookings}
-					/>
-				</Dialog>
-				<Dialog 
-					open={this.state.fASAP}
-					onRequestClose={() => this.setState({fASAP: false})}
-					transition={<Slide direction="down"/>}
-					className={classes.dialog}
-					classes={{paper: classes.paper}}
-				>
-					<DialogTitle>
-						Send Request
-					</DialogTitle>
-					<DialogContent className={classes.dialogContent}>
-						<TwilioForm 
-							onSubmit={(data)=>{ this.sendRequest(data); this.setState({fASAP: false});}} 
-							onCancel={()=>{this.setState({fASAP: false});}}
-						/>
-					</DialogContent>
-				</Dialog>
+						<DialogTitle>
+							Send Request
+						</DialogTitle>
+						<DialogContent className={classes.dialogContent}>
+							<Typography type="body2">Time: {moment(this.state.booking.start).format("lll")}</Typography>
+							<Typography type="body2">Gender: {this.state.gender}</Typography>
+							<TextField
+								value={this.state.comment}
+								onChange={(event) => this.setState({comment: event.target.value})}
+								label="Comment"
+								multiline
+								rows="4"
+								defaultValue="Comment"
+								margin="normal"
+								fullWidth
+							/>
+						</DialogContent>
+						<DialogActions>
+							<Button color="accent" onClick={()=>this.setState({fOpen: false})}>Cancel</Button>
+							<Button color="primary" onClick={()=>this.sendRequest()}>Send</Button>
+						</DialogActions>
+					</Dialog>
 			</div>
 		);
 	}
