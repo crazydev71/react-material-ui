@@ -43,7 +43,8 @@ class Login extends React.Component {
   }
   
   
-  sendRequest() {
+  sendRequest(event) {
+    event.preventDefault();
     this.setState({
       loading: true,
     });
@@ -76,6 +77,7 @@ class Login extends React.Component {
         this.props.dispatch(push('/register/verify'));
       }
     });
+
   }
 
   render() {
@@ -118,53 +120,54 @@ class Login extends React.Component {
           >
             We service York, North-York, East York, Etobicoke, Scarborough, and Old Toronto
           </Typography>
-
-          <Grid
-            container
-            justify="center"
-            align="stretch"
-            direction="column"
-            className={classes.grid}
-            style={{marginTop:10}}
-          >
-            <TextField
-              placeholder={`Your account email`}
-              value={this.state.email}
-              onChange={(event) => {this.setState({email: event.target.value})}}
-              label="Email"
-              margin="normal"
-              type="email"
-            />
-
-            <TextField
-              placeholder={`Your account password`}
-              value={this.state.password}
-              onChange={(event) => {this.setState({password: event.target.value})}}
-              label="Password"
-              margin="normal"
-              type="password"
-            /><br/>
-
-            <Button
-              color="primary"
-              onClick={() => this.sendRequest()}
-              raised
+          <form onSubmit={this.sendRequest} style={{width: "100%"}}>
+            <Grid
+              container
+              justify="center"
+              align="stretch"
+              direction="column"
+              className={classes.grid}
+              style={{marginTop:10}}
             >
-              Login
-            </Button><br/>
-            <Typography
-              type='body2' 
-              align='center' 
-              className={classes.typography}
-            >
-              Don't you have an account? 
-              <span 
-                style={{color:'green'}}
-                onClick={() => this.props.dispatch(push('/register'))}
+              <TextField
+                placeholder={`Your account email`}
+                value={this.state.email}
+                onChange={(event) => {this.setState({email: event.target.value})}}
+                label="Email"
+                margin="normal"
+                type="email"
+              />
+
+              <TextField
+                placeholder={`Your account password`}
+                value={this.state.password}
+                onChange={(event) => {this.setState({password: event.target.value})}}
+                label="Password"
+                margin="normal"
+                type="password"
+              /><br/>
+
+              <Button
+                type="submit"
+                color="primary"
+                raised
+              >
+                Login
+              </Button><br/>
+              <Typography
+                type='body2' 
+                align='center'
                 className={classes.typography}
-              > Register here</span>
-            </Typography>
-          </Grid>
+              >
+                Don't you have an account? 
+                <span 
+                  style={{color:'green'}}
+                  onClick={() => this.props.dispatch(push('/register'))}
+                  className={classes.typography}
+                > Register here</span>
+              </Typography>
+            </Grid>
+          </form>
           { this.state.loading && <Loader /> }
         </Grid>
       </div>

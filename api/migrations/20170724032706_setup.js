@@ -53,5 +53,7 @@ exports.down = function(knex, Promise) {
         knex.schema.dropTableIfExists('users'),
         knex.schema.dropTableIfExists('requests'),
         knex.schema.dropTableIfExists('logs')
-    ]);
+    ]).then(() => {
+        console.log("cleared");
+    });
 };

@@ -114,7 +114,7 @@ class ClientRequests extends React.Component {
 			settingGender: '',
 			isSetting: false,
 			filters: {
-				status: 'assigned',
+				status: '',
 				requestTime: 'ASC',
 				createdTime: ''
 			},

@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-	knex.schema.dropTableIfExists('bookings').then(()=>{
-		console.log('dropped bookings table');
-	})
+    return Promise.all([
+        knex.schema.dropTableIfExists('bookings'),
+    ])
 };

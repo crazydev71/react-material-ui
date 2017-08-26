@@ -42,6 +42,7 @@ class Register extends React.Component {
   }
   
   sendRequest(event) {
+    event.preventDefault();
     this.setState({
       loading: true,
     });
@@ -75,62 +76,63 @@ class Register extends React.Component {
             src={Logo}
             className={classes.logo}
           />
-
-          <Grid
-            container
-            justify="center"
-            align="stretch"
-            direction="column"
-            className={classes.grid}
-            style={{marginTop:10}}
-          >
-            <TextField
-              placeholder={`Your full name`}
-              value={this.state.name}
-              onChange={event => this.setState({name: event.target.value})}
-              label="Fullname"
-              margin="normal"
-            />
-
-            <TextField
-              placeholder={`Your account email`}
-              value={this.state.email}
-              onChange={(event) => {this.setState({email: event.target.value})}}
-              label="Email"
-              margin="normal"
-              type="email"
-            />
-
-            <TextField
-              placeholder={`Your account password`}
-              value={this.state.password}
-              onChange={(event) => {this.setState({password: event.target.value})}}
-              label="Password"
-              margin="normal"
-              type="password"
-            /><br/>
-
-            <Button
-              color="primary"
-              onClick={() => this.sendRequest()}
-              raised
+          <form onSubmit={this.sendRequest} style={{width:"100%"}}>
+            <Grid
+              container
+              justify="center"
+              align="stretch"
+              direction="column"
+              className={classes.grid}
+              style={{marginTop:10}}
             >
-              Register
-            </Button><br/>
+              <TextField
+                placeholder={`Your full name`}
+                value={this.state.name}
+                onChange={event => this.setState({name: event.target.value})}
+                label="Fullname"
+                margin="normal"
+              />
 
-            <Typography
-                type='body2' 
-                align='center' 
-                className={classes.typography}
-            >
-              Already have an account? 
-              <span 
-                style={{color:'green'}}
-                onClick={() => this.props.dispatch(push('/login'))}
-                className={classes.typography}
-              > Login here</span>
-            </Typography>
-          </Grid>
+              <TextField
+                placeholder={`Your account email`}
+                value={this.state.email}
+                onChange={(event) => {this.setState({email: event.target.value})}}
+                label="Email"
+                margin="normal"
+                type="email"
+              />
+
+              <TextField
+                placeholder={`Your account password`}
+                value={this.state.password}
+                onChange={(event) => {this.setState({password: event.target.value})}}
+                label="Password"
+                margin="normal"
+                type="password"
+              /><br/>
+
+              <Button
+                color="primary"
+                type="submit"
+                raised
+              >
+                Register
+              </Button><br/>
+
+              <Typography
+                  type='body2' 
+                  align='center' 
+                  className={classes.typography}
+              >
+                Already have an account? 
+                <span 
+                  style={{color:'green'}}
+                  onClick={() => this.props.dispatch(push('/login'))}
+                  className={classes.typography}
+                > Login here</span>
+              </Typography>
+            </Grid>
+          </form>
           { this.state.loading && <Loader /> }
         </Grid>
       </div>

@@ -34,7 +34,7 @@ class Verification extends React.Component {
     this.state = {
       phone: '',
 			smsCode: '',
-      waitingSMS: true,
+      waitingSMS: false,
       loading: false,
     };
 		this.requestSMSCode = this.requestSMSCode.bind(this);
