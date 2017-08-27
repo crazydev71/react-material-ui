@@ -16,5 +16,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#
+# api endpoint
 mobile/src/api
+
+# api env
+
+api/.env
